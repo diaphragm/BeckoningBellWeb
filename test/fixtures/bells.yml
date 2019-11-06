@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  place: MyString
+  password: MyString
+  note: MyText
+  datetime: 2019-11-07 00:48:38
+
+two:
+  place: MyString
+  password: MyString
+  note: MyText
+  datetime: 2019-11-07 00:48:38
