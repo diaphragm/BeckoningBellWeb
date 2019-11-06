@@ -1,0 +1,17 @@
+h1 狩人呼びの鐘Web
+
+= form_with scope: :bell, url: bells_path do |form|
+  p
+    = form.label :place, 'どこで鐘を鳴らしていますか？'
+    = form.text_field :place
+
+  p
+    = form.label :password, '設定した合言葉は？'
+    = form.text_field :password
+
+  p
+    = form.label :note, '備考'
+    = form.text_area :note
+
+  p
+    = form.submit '鐘を鳴らす'

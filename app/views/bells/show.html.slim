@@ -1,0 +1,28 @@
+h1 狩人呼びの鐘Web
+.info
+  dl
+    dt 場所
+    dd = @bell.place
+    dt 合言葉
+    dd = @bell.password
+    dt 備考
+    dd = @bell.note
+
+.chat
+  .send
+    = form_with scope: :message, url: bell_messages_path(@bell)  do |form|
+      = form.hidden_field :user, value: "Maria"
+      p
+        = form.text_field :text
+      p
+        = form.submit '送'
+
+  .view
+    - @bell.messages.reverse.each do |message|
+      p
+        span.user
+          = "#{message.user}: "
+        span.text
+          = message.text
+        span.time
+          = " (#{time_ago_in_words(message.created_at)}前)"
