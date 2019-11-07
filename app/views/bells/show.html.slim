@@ -1,7 +1,9 @@
+div#bell-id data-bell-id==@bell.id
+
 h1 狩人呼びの鐘Web
 - user = session[@bell.id]["user"]
 
-.info
+#info
   - if user == "狩りの主"
     = form_with model: @bell do |form|
       dl
@@ -22,8 +24,8 @@ h1 狩人呼びの鐘Web
       dt 備考
       dd = @bell.note
 
-.chat
-  .send
+#chat
+  #sender
     = form_with scope: :message, url: bell_messages_path(@bell) do |form|
       p
         = form.text_field :text
@@ -33,9 +35,9 @@ h1 狩人呼びの鐘Web
         = "あなたは#{user}です。"
         = "(名前はランダム)" unless user == "狩りの主"
 
-  .view
+  #viewer
     - @bell.messages.reverse.each do |message|
-      p
+      p.message
         span.user
           = "#{message.user}: "
         span.text

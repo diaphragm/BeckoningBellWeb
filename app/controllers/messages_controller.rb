@@ -5,9 +5,11 @@ class MessagesController < ApplicationController
     user = session[@bell.id.to_s]["user"]
     @message = @bell.messages.new(message_params.merge("user" => user))
 
-    @message.save
+    if @message.save
+      ActionCable.server.broadcast("bell_#{@bell.id}", @message)
+    end
 
-    redirect_to @bell
+    render "bells/show"
   end
 
   private
