@@ -1,7 +1,9 @@
 class MessagesController < ApplicationController
   def create
+
     @bell = Bell.find(params[:bell_id])
-    @message = @bell.messages.new(message_params)
+    user = session[@bell.id.to_s]["user"]
+    @message = @bell.messages.new(message_params.merge("user" => user))
 
     @message.save
 
@@ -11,6 +13,6 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:user, :text)
+    params.require(:message).permit(:text)
   end
 end

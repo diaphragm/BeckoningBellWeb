@@ -1,21 +1,37 @@
 h1 狩人呼びの鐘Web
+- user = session[@bell.id]["user"]
+
 .info
-  dl
-    dt 場所
-    dd = @bell.place
-    dt 合言葉
-    dd = @bell.password
-    dt 備考
-    dd = @bell.note
+  - if user == "狩りの主"
+    = form_with model: @bell do |form|
+      dl
+        dt 場所
+        dd = form.select :place, place_list, selected: @bell.place
+        dt 合言葉
+        dd = form.text_field :password, value: @bell.password
+        dt 備考
+        dd = form.text_field :note, value: @bell.note
+      p
+        = form.submit "update"
+  - else
+    dl
+      dt 場所
+      dd = @bell.place
+      dt 合言葉
+      dd = @bell.password
+      dt 備考
+      dd = @bell.note
 
 .chat
   .send
-    = form_with scope: :message, url: bell_messages_path(@bell)  do |form|
-      = form.hidden_field :user, value: "Maria"
+    = form_with scope: :message, url: bell_messages_path(@bell) do |form|
       p
         = form.text_field :text
       p
         = form.submit '送'
+      span
+        = "あなたは#{user}です。"
+        = "(名前はランダム)" unless user == "狩りの主"
 
   .view
     - @bell.messages.reverse.each do |message|
