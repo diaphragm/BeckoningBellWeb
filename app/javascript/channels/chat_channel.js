@@ -18,8 +18,17 @@ window.addEventListener('load', function() {
       // Called when there's incoming data on the websocket for this channel
       console.log("Receiving:")
       console.log(data)
+
+      let message = data.user + ": " + data.text + " (" + data.created_at + ")"
+
+      let elem_message = document.createElement("p")
+      elem_message.className = "message"
+      elem_message.appendChild(document.createTextNode(message))
+      let elem_view = document.getElementById("viewer")
+      elem_view.insertBefore(elem_message, elem_view.firstChild)
     },
 
+    // Action Cableだとセッション使えないのでpostはajaxで
     post(data) {
       console.log("post")
       return this.perform("post", data)

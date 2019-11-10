@@ -9,7 +9,7 @@ class MessagesController < ApplicationController
       ActionCable.server.broadcast("bell_#{@bell.id}", @message)
     end
 
-    render "bells/show"
+    # render "bells/show"
   end
 
   private

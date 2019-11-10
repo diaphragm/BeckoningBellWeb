@@ -26,11 +26,13 @@ h1 狩人呼びの鐘Web
 
 #chat
   #sender
+    / input type="text" data-behavior="chat-text"
+    / input type="button" data-behavior="chat-send" value="送"
     = form_with scope: :message, url: bell_messages_path(@bell) do |form|
       p
-        = form.text_field :text
+        = form.text_field :text, data: {behavior: "chat-text"}
       p
-        = form.submit '送'
+        = form.submit '送',  data: {behavior: "chat-send"}
       span
         = "あなたは#{user}です。"
         = "(名前はランダム)" unless user == "狩りの主"
@@ -38,9 +40,11 @@ h1 狩人呼びの鐘Web
   #viewer
     - @bell.messages.reverse.each do |message|
       p.message
-        span.user
-          = "#{message.user}: "
-        span.text
-          = message.text
-        span.time
-          = " (#{time_ago_in_words(message.created_at)}前)"
+        = "#{message.user}: #{message.text} (#{message.created_at})"
+      / p.message
+      /   span.user
+      /     = "#{message.user}: "
+      /   span.text
+      /     = message.text
+      /   span.time
+      /     = " (#{time_ago_in_words(message.created_at)}前)"
