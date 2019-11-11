@@ -1,7 +1,7 @@
 div#bell-id data-bell-id==@bell.id
 
 h1 狩人呼びの鐘Web
-- user = session[@bell.id]["user"]
+- user = session.dig(@bell.id, "user")
 
 #info
   - if user == "狩りの主"
@@ -26,16 +26,20 @@ h1 狩人呼びの鐘Web
 
 #chat
   #sender
-    / input type="text" data-behavior="chat-text"
-    / input type="button" data-behavior="chat-send" value="送"
+    input type="text" data-behavior="chat-text"
+    input type="button" data-behavior="chat-send" value="送"
+
     = form_with scope: :message, url: bell_messages_path(@bell) do |form|
       p
-        = form.text_field :text, data: {behavior: "chat-text"}
+        / = form.text_field :text, data: {behavior: "chat-text"}
+        = form.select :text, BloodborneUtil.message_list, {}, :onChange => "javascript:this.form.commit.click()"
       p
-        = form.submit '送',  data: {behavior: "chat-send"}
-      span
-        = "あなたは#{user}です。"
-        = "(名前はランダム)" unless user == "狩りの主"
+        = form.submit '送', :style => "display:none;"
+
+
+  - if user
+    = "あなたは#{user}です。"
+    = "(名前はランダム)" unless user == "狩りの主"
 
   #viewer
     - @bell.messages.reverse.each do |message|
@@ -48,3 +52,30 @@ h1 狩人呼びの鐘Web
       /     = message.text
       /   span.time
       /     = " (#{time_ago_in_words(message.created_at)}前)"
+
+
+/ TODO:別ファイルに切り出す
+javascript:
+  const csrf_token = document.querySelector("meta[name=csrf-token]").getAttribute("content")
+  console.log(csrf_token)
+  let el_text = document.querySelector("[data-behavior=chat-text]")
+  let el_button = document.querySelector("[data-behavior=chat-send]")
+  el_button.addEventListener("click", () => {
+    console.log(el_text.value)
+
+    fetch("http://192.168.1.182:3000/bells/1/messages", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": csrf_token
+      },
+      body: JSON.stringify({
+        message: {
+          text: el_text.value
+        }
+      })
+    })
+
+    el_text.value = ""
+  })

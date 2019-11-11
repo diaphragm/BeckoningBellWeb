@@ -35,5 +35,14 @@ window.addEventListener('load', function() {
     }
   })
 
+  // let el_text = document.querySelector("[data-behavior=chat-text]")
+  // let el_button = document.querySelector("[data-behavior=chat-send]")
+  // el_button.addEventListener("click", () => {
+  //   console.log("ho")
+  //   chatChannel.post({text: el_text.value})
+  //   el_text.value = ""
+  // })
+
+
   // window.onclick = function() {chatChannel.post({message: "ほげ"}) }
 })

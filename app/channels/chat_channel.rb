@@ -8,6 +8,7 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def post(data)
+    p cookie
     ActionCable.server.broadcast("bell_#{params["bell_id"]}", data)
   end
 end
