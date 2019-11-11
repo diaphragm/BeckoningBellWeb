@@ -26,44 +26,39 @@ h1 狩人呼びの鐘Web
 
 #chat
   #sender
-    input type="text" data-behavior="chat-text"
-    input type="button" data-behavior="chat-send" value="送"
-
-    = form_with scope: :message, url: bell_messages_path(@bell) do |form|
-      p
-        / = form.text_field :text, data: {behavior: "chat-text"}
-        = form.select :text, BloodborneUtil.message_list, {}, :onChange => "javascript:this.form.commit.click()"
-      p
-        = form.submit '送', :style => "display:none;"
-
+    input type="hidden" data-behavior="chat-url" value=bell_messages_path(@bell)
+    div
+      select type="select" data-behavior="chat-text"
+        - BloodborneUtils.message_list.each do |t, i|
+          option value=i
+            = t
+    div
+      - BloodborneUtils.stamp_list.each do |n, i|
+        = image_tag "stamps/#{n}", class: "stamp-legend", data: {behavior: "chat-stamp", content: i}
 
   - if user
-    = "あなたは#{user}です。"
-    = "(名前はランダム)" unless user == "狩りの主"
+    |あなたは#{user}です。
+    - unless user == "狩りの主"
+      |(名前はランダム)
 
   #viewer
     - @bell.messages.reverse.each do |message|
       p.message
-        = "#{message.user}: #{message.text} (#{message.created_at})"
-      / p.message
-      /   span.user
-      /     = "#{message.user}: "
-      /   span.text
-      /     = message.text
-      /   span.time
-      /     = " (#{time_ago_in_words(message.created_at)}前)"
+        | #{message.user}:
+        == message.text
+        span data-behavior="time-ago" data-content=message.created_at
 
 
 / TODO:別ファイルに切り出す
 javascript:
   const csrf_token = document.querySelector("meta[name=csrf-token]").getAttribute("content")
-  console.log(csrf_token)
-  let el_text = document.querySelector("[data-behavior=chat-text]")
-  let el_button = document.querySelector("[data-behavior=chat-send]")
-  el_button.addEventListener("click", () => {
-    console.log(el_text.value)
 
-    fetch("http://192.168.1.182:3000/bells/1/messages", {
+  let elUrl = document.querySelector("[data-behavior=chat-url]")
+  let elText = document.querySelector("[data-behavior=chat-text]")
+  elText.addEventListener("input", () => {
+    console.log(elText.value)
+
+    fetch(elUrl.value, {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -72,10 +67,57 @@ javascript:
       },
       body: JSON.stringify({
         message: {
-          text: el_text.value
+          type: "text",
+          value: elText.value
         }
       })
     })
-
-    el_text.value = ""
   })
+
+  let elStamps = document.querySelectorAll("[data-behavior=chat-stamp]")
+  elStamps.forEach((el) => {
+    el.addEventListener("click", () => {
+      fetch(elUrl.value, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrf_token
+        },
+        body: JSON.stringify({
+          message: {
+            type: "stamp",
+            value: el.getAttribute("data-content")
+          }
+        })
+      })
+    })
+  })
+
+  const timeAgo = (unixTime) => {
+    var date = new Date(unixTime)
+    var diff = new Date().getTime() - date.getTime()
+    var d = new Date(Math.max(diff, 0));
+
+    if (d.getUTCFullYear() - 1970) {
+      return d.getUTCFullYear() - 1970 + '年前'
+    } else if (d.getUTCMonth()) {
+      return d.getUTCMonth() + 'ヶ月前'
+    } else if (d.getUTCDate() - 1) {
+      return d.getUTCDate() - 1 + '日前'
+    } else if (d.getUTCHours()) {
+      return d.getUTCHours() + '時間前'
+    } else if (d.getUTCMinutes()) {
+      return d.getUTCMinutes() + '分前'
+    } else {
+      return d.getUTCSeconds() + '秒前'
+    }
+  }
+
+  window.updateTime = () => {
+    document.querySelectorAll("[data-behavior=time-ago]").forEach((el) => {
+      el.innerText = '(' + timeAgo(el.getAttribute("data-content")) + ')'
+    })
+  }
+  window.addEventListener("load", updateTime)
+  window.setInterval(updateTime, 5000)

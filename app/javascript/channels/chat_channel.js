@@ -19,13 +19,16 @@ window.addEventListener('load', function() {
       console.log("Receiving:")
       console.log(data)
 
-      let message = data.user + ": " + data.text + " (" + data.created_at + ")"
-
+      let message = data.user + ":" + data.text + '<span data-behavior="time-ago" data-content="' + data.created_at + '"></span>'
+      console.log(message)
       let elem_message = document.createElement("p")
       elem_message.className = "message"
-      elem_message.appendChild(document.createTextNode(message))
+      // elem_message.appendChild(document.createElement(message))
+      elem_message.innerHTML = message
       let elem_view = document.getElementById("viewer")
       elem_view.insertBefore(elem_message, elem_view.firstChild)
+
+      updateTime()
     },
 
     // Action Cableだとセッション使えないのでpostはajaxで

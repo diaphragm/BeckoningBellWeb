@@ -1,4 +1,4 @@
-module BloodborneUtil
+module BloodborneUtils
   module_function
 
   NAME_FIRST = %w[烏羽 赤ローブ 血族狩り 聖堂街 連盟 マダラス 血 聖剣 流浪 ヤーナム 漁村 トゥメル 聖杯 星 白痴 聖職者 星界 悪夢 夢 最初 死体 旧主 ローラン 月 罹患者 車椅子 獣狩り 上位者狩り 教会 ヘムウィック 瞳 廃城 カイン メルゴー リボン 彼氏持ち 全裸 右回り 左回り 狂人 上位者 古い上位者 3本目 ノコギリ 火薬 烏 雷光 剣 輝く剣 車輪 星の瞳 撃鉄 葦名 エアプ]
@@ -32,6 +32,8 @@ module BloodborneUtil
     扉を開けてください。
     先行しないでください。
     鐘女は倒さないでください。
+    参加いいですか？
+    落ちます。
     宇宙は空にある。
     さすがにおかしいなと（笑）。
     はい。
@@ -39,6 +41,13 @@ module BloodborneUtil
     OK。
   ]
 
+  STAMP_LIST = %w[
+    banzai_obaasan.png
+    byebye_girl.png
+    job_shitsuji_oldman.png
+    omairi_girl.png
+    medical_touchukasou_semi.png
+  ]
 
   def generate_hunter_name(exclude = [])
     100.times do
@@ -62,4 +71,13 @@ module BloodborneUtil
   def find_message(index)
     MESSAGE_LIST[index.to_i]
   end
+
+  def stamp_list
+    STAMP_LIST.map.with_index{|x, i| [x, i]}
+  end
+
+  def find_stamp(index)
+    STAMP_LIST[index.to_i]
+  end
+
 end

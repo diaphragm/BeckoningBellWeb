@@ -5,16 +5,20 @@ class MessagesController < ApplicationController
 
     unless session.dig(@bell.id.to_s, "user")
       existing_users = @bell.messages.map{|m| m.user}.uniq
-      session[@bell.id.to_s] = {"user" => BloodborneUtil.generate_hunter_name(existing_users)}
+      session[@bell.id.to_s] = {"user" => BloodborneUtils.generate_hunter_name(existing_users)}
     end
     p user = session[@bell.id.to_s]["user"]
+    new_message = {user: user}
 
-    tmp_message = message_params.merge("user" => user)
-    tmp_message["text"] = BloodborneUtil.find_message(tmp_message["text"])
+    new_message[:text] = case sended_params[:type]
+    when "text"
+      BloodborneUtils.find_message(sended_params["value"])
+    when "stamp"
+      image = "stamps/" + BloodborneUtils.find_stamp(sended_params["value"])
+      %[<img class="stamp" src="#{view_context.image_path(image)}">]
+    end
 
-    p tmp_message
-
-    @message = @bell.messages.new(tmp_message)
+    @message = @bell.messages.new(new_message)
 
     if @message.save
       ActionCable.server.broadcast("bell_#{@bell.id}", @message)
@@ -25,7 +29,7 @@ class MessagesController < ApplicationController
 
   private
 
-  def message_params
-    params.require(:message).permit(:text)
+  def sended_params
+    params.require(:message).permit(:type, :value)
   end
 end
