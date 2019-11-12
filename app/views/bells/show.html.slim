@@ -8,27 +8,33 @@ javascript:
   IV.user = "#{raw session.dig(@bell.id, 'user')}"
   IV.chatUrl = "#{raw bell_messages_path(@bell)}"
 
-h1 狩人呼びの鐘Web
+#app
+  el-container
+    el-header
+      | 狩人呼びの鐘Web
+    el-main
+      #chat-viewer
+        transition-group name="message-list"
+          chat-message v-for="message in messages" v-bind:message="message" v-bind:key="message.id"
+    el-footer
+      el-popover trigger="click"
+        chat-select-text
+        el-button slot="reference"
+          | テキスト
+      el-popover trigger="click"
+        chat-select-stamp
+        el-button slot="reference"
+          | スタンプ
 
-dl
-  dt 場所
-  dd = @bell.place
-  dt 合言葉
-  dd = @bell.password
-  dt 備考
-  dd = @bell.note
+/ dl
+/   dt 場所
+/   dd = @bell.place
+/   dt 合言葉
+/   dd = @bell.password
+/   dt 備考
+/   dd = @bell.note
 
-#chat-viewer
-  transition-group name="message-list"
-    chat-message v-for="message in messages" v-bind:message="message" v-bind:key="message.id"
-
-#chat-input
-  chat-select-text v-if="type === 'text'"
-  chat-select-stamp v-if="type === 'stamp'"
-  input type="button" v-on:click="type = 'text'" value="テキスト"
-  input type="button" v-on:click="type = 'stamp'" value="スタンプ"
-
-- if user
-  |あなたは#{user}です。
-  - unless user == "狩りの主"
-    |(名前はランダム)
+/ - if user
+/   |あなたは#{user}です。
+/   - unless user == "狩りの主"
+/     |(名前はランダム)

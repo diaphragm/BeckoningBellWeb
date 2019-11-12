@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Called when there's incoming data on the websocket for this channel
       console.log("Receiving:")
       console.log(data)
-      MessageList.push(data)
+      MessageList.unshift(data)
     },
 
     // Action Cableだとセッション使えないのでpostはajaxで
