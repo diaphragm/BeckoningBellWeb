@@ -24,3 +24,17 @@ div.text-legend {
 
   font-size: small;
 }
+
+.message-list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.message-list-enter-active, .message-list-leave-active {
+  transition: all 1s;
+}
+.message-list-enter, .message-list-leave-to {
+  opacity: 0;
+}
+.message-list-move {
+  transition: transform 1s;
+}

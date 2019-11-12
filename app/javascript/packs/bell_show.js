@@ -24,27 +24,55 @@ document.addEventListener('DOMContentLoaded', async () => {
     })
   }
 
-  new Vue({
-    el: '#chat-select-text',
-    data: {
-      items: ChatTextList,
+  const ChatSelectText = ({
+    data: function() {
+      return {items: ChatTextList}
     },
     methods: {
       onclick: function(id) {
         postMessage('text', id)
       }
-    }
+    },
+    template: `
+      <div>
+        <div class=text-legend
+          v-for="item in items"
+          v-bind:key="item.id"
+          v-on:click="onclick(item.id)"
+        >{{ item.text }}</div>
+      </div>
+      `
+  })
+
+  const ChatSelectStamp = ({
+    data: function () {
+      return { items: ChatStampList }
+    },
+    methods: {
+      onclick: function (id) {
+        postMessage('stamp', id)
+      }
+    },
+    template: `
+      <div>
+        <img class=stamp-legend
+          v-for="item in items"
+          v-bind:key="item.id"
+          v-on:click="onclick(item.id)"
+          v-bind:src="item.text"
+        >
+      </div>
+      `
   })
 
   new Vue({
-    el: '#chat-select-stamp',
+    el: '#chat-input',
     data: {
-      items: ChatStampList,
+      type: 'text'
     },
-    methods: {
-      onclick: function(id) {
-        postMessage('stamp', id)
-      }
+    components: {
+      'chat-select-text': ChatSelectText,
+      'chat-select-stamp': ChatSelectStamp
     }
   })
 

@@ -17,21 +17,16 @@ dl
   dt 備考
   dd = @bell.note
 
+
 #chat-viewer
-  chat-message v-for="message in messages" v-bind:message="message" v-bind:key="message.id"
+  transition-group name="message-list"
+    chat-message v-for="message in messages" v-bind:message="message" v-bind:key="message.id"
 
 #chat-input
-  #chat-select-text
-    div.text-legend v-for="item in items" v-bind:key="item.id" v-on:click="onclick(item.id)"
-      | {{item.text}}
-
-  #chat-select-stamp
-    image.stamp-legend v-for="item in items" v-bind:src="item.text" v-bind:key="item.id" v-on:click="onclick(item.id)"
-
-  button v-on:click="type = 'text'"
-    |テキスト
-  button v-on:click="type = 'stamp'"
-    |スタンプ
+  chat-select-text v-if="type === 'text'"
+  chat-select-stamp v-if="type === 'stamp'"
+  input type="button" v-on:click="type = 'text'" value="テキスト"
+  input type="button" v-on:click="type = 'stamp'" value="スタンプ"
 
 - if user
   |あなたは#{user}です。
