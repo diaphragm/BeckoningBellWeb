@@ -2,9 +2,12 @@ class BellsController < ApplicationController
   def show
     @bell = Bell.find(params[:id])
 
-    existing_users = @bell.messages.map{|m| m.user}.uniq
+    # existing_users = @bell.messages.map{|m| m.user}.uniq
     # session[@bell.id.to_s] ||= {"user" => BloodborneUtils.generate_hunter_name(existing_users)}
 
+    if request.format == :json
+      render json: @bell
+    end
   rescue ActiveRecord::RecordNotFound
     render plain: "err"
   end
