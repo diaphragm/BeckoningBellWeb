@@ -1,123 +1,39 @@
-div#bell-id data-bell-id==@bell.id
+- user = session.dig(@bell.id, 'user')
+= javascript_pack_tag 'bell_show'
+javascript:
+  window.ChatTextList = #{raw BloodborneUtils.message_list.map{|i,x| {id: i, text: x}}.to_json}
+  window.ChatStampList = #{raw BloodborneUtils.stamp_list.map{|i,x| {id: i, text: image_path("stamps/#{x}")}}.to_json}
+  window.BellId = "#{raw @bell.id}"
+  window.User = "#{raw session.dig(@bell.id, 'user')}"
+  window.ChatUrl = "#{raw bell_messages_path(@bell)}"
 
 h1 狩人呼びの鐘Web
-- user = session.dig(@bell.id, "user")
 
-#info
-  - if user == "狩りの主"
-    = form_with model: @bell do |form|
-      dl
-        dt 場所
-        dd = form.select :place, place_list, selected: @bell.place
-        dt 合言葉
-        dd = form.text_field :password, value: @bell.password
-        dt 備考
-        dd = form.text_field :note, value: @bell.note
-      p
-        = form.submit "update"
-  - else
-    dl
-      dt 場所
-      dd = @bell.place
-      dt 合言葉
-      dd = @bell.password
-      dt 備考
-      dd = @bell.note
+dl
+  dt 場所
+  dd = @bell.place
+  dt 合言葉
+  dd = @bell.password
+  dt 備考
+  dd = @bell.note
 
-#chat
-  #sender
-    input type="hidden" data-behavior="chat-url" value=bell_messages_path(@bell)
-    div
-      select type="select" data-behavior="chat-text"
-        - BloodborneUtils.message_list.each do |t, i|
-          option value=i
-            = t
-    div
-      - BloodborneUtils.stamp_list.each do |n, i|
-        = image_tag "stamps/#{n}", class: "stamp-legend", data: {behavior: "chat-stamp", content: i}
+#chat-viewer
+  chat-message v-for="message in messages" v-bind:message="message" v-bind:key="message.id"
 
-  - if user
-    |あなたは#{user}です。
-    - unless user == "狩りの主"
-      |(名前はランダム)
+#chat-input
+  #chat-select-text
+    div.text-legend v-for="item in items" v-bind:key="item.id" v-on:click="onclick(item.id)"
+      | {{item.text}}
 
-  #viewer
-    - @bell.messages.reverse.each do |message|
-      p.message
-        | #{message.user}:
-        == message.text
-        span data-behavior="time-ago" data-content=message.created_at
+  #chat-select-stamp
+    image.stamp-legend v-for="item in items" v-bind:src="item.text" v-bind:key="item.id" v-on:click="onclick(item.id)"
 
+  button v-on:click="type = 'text'"
+    |テキスト
+  button v-on:click="type = 'stamp'"
+    |スタンプ
 
-/ TODO:別ファイルに切り出す
-javascript:
-  const csrf_token = document.querySelector("meta[name=csrf-token]").getAttribute("content")
-
-  let elUrl = document.querySelector("[data-behavior=chat-url]")
-  let elText = document.querySelector("[data-behavior=chat-text]")
-  elText.addEventListener("input", () => {
-    console.log(elText.value)
-
-    fetch(elUrl.value, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": csrf_token
-      },
-      body: JSON.stringify({
-        message: {
-          type: "text",
-          value: elText.value
-        }
-      })
-    })
-  })
-
-  let elStamps = document.querySelectorAll("[data-behavior=chat-stamp]")
-  elStamps.forEach((el) => {
-    el.addEventListener("click", () => {
-      fetch(elUrl.value, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrf_token
-        },
-        body: JSON.stringify({
-          message: {
-            type: "stamp",
-            value: el.getAttribute("data-content")
-          }
-        })
-      })
-    })
-  })
-
-  const timeAgo = (unixTime) => {
-    var date = new Date(unixTime)
-    var diff = new Date().getTime() - date.getTime()
-    var d = new Date(Math.max(diff, 0));
-
-    if (d.getUTCFullYear() - 1970) {
-      return d.getUTCFullYear() - 1970 + '年前'
-    } else if (d.getUTCMonth()) {
-      return d.getUTCMonth() + 'ヶ月前'
-    } else if (d.getUTCDate() - 1) {
-      return d.getUTCDate() - 1 + '日前'
-    } else if (d.getUTCHours()) {
-      return d.getUTCHours() + '時間前'
-    } else if (d.getUTCMinutes()) {
-      return d.getUTCMinutes() + '分前'
-    } else {
-      return d.getUTCSeconds() + '秒前'
-    }
-  }
-
-  window.updateTime = () => {
-    document.querySelectorAll("[data-behavior=time-ago]").forEach((el) => {
-      el.innerText = '(' + timeAgo(el.getAttribute("data-content")) + ')'
-    })
-  }
-  window.addEventListener("load", updateTime)
-  window.setInterval(updateTime, 5000)
+- if user
+  |あなたは#{user}です。
+  - unless user == "狩りの主"
+    |(名前はランダム)

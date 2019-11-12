@@ -65,7 +65,7 @@ module BloodborneUtils
   end
 
   def message_list
-    MESSAGE_LIST.map.with_index{|x, i| [x, i]}
+    MESSAGE_LIST.map.with_index{|x, i| [i, x]}
   end
 
   def find_message(index)
@@ -73,7 +73,7 @@ module BloodborneUtils
   end
 
   def stamp_list
-    STAMP_LIST.map.with_index{|x, i| [x, i]}
+    STAMP_LIST.map.with_index{|x, i| [i, x]}
   end
 
   def find_stamp(index)

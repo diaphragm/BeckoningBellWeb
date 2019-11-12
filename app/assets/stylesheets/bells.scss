@@ -12,3 +12,15 @@ img.stamp-legend {
   border: solid;
   border-width: 1px;
 }
+
+
+div.text-legend {
+  display: inline-block;
+  vertical-align: bottom;
+  height: 32px;
+  width: 128px;
+  border: solid;
+  border-width: 1px;
+
+  font-size: small;
+}

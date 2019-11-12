@@ -1,4 +1,20 @@
 class MessagesController < ApplicationController
+  def index
+    bell = Bell.find(params[:bell_id])
+    messages = bell.messages.all
+    render json: messages
+  end
+
+  def show
+    message = Message.find(params[:id])
+    if message.bell_id == params[:bell_id]
+      render json: message
+    else
+      render status: 404, json: {status: 404, message: "Message Not Found"}
+    end
+
+  end
+
   def create
 
     @bell = Bell.find(params[:bell_id])
