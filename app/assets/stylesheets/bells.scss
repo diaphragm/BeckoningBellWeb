@@ -8,7 +8,7 @@
   font-family: 'Noto Serif JP', 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', self;
 }
 
-html, body, #app, .el-container {
+html, body, #app, #app-container {
   margin:0;
   padding:0;
   border:0;
@@ -16,27 +16,29 @@ html, body, #app, .el-container {
   height: 100%;
 }
 
-.el-header {
+#app-container {
+  width: 100%;
+}
+
+#app-header {
   background-color: lightgray;
   text-align: center;
   line-height: 60px;
 }
 
-.el-header {
-  height: 100px;
-}
-
-.el-main {
+#app-main {
   height: calc(100vh - 100px - 100px);
 }
 
-.el-footer {
-  height: 100px;
-  background-color: lightgray;
+#app-footer {
 }
 
 img.stamp {
   height: 100px;
+}
+
+.chat-legend-container {
+  user-select: none;
 }
 
 .chat-legend-container .el-button+.el-button {
@@ -53,7 +55,17 @@ img.stamp {
   width: 100%;
 }
 
-.chat-legend-container .text-legend {
+button.chat-input-type {
+  margin: 2px;
+  padding: 2px;
+  height: 64px;
+  width: 64px;
+
+  white-space: normal;
+  vertical-align: bottom;
+}
+
+.chat-legend-container .text-legend, .chat-input-type {
   margin: 2px;
   padding: 2px;
   height: 64px;
@@ -64,12 +76,17 @@ img.stamp {
 }
 
 .message-container {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   height: auto;
 }
+.message-container span {
+  width: fit-content;
+}
 .message-user {
-  display: inline-block;
-  width: 64px;
+  margin-left: 8px;
+  display: block;
+  font-size: small;
+  font-weight: bold;
 }
 .message-text {
   display: inline-block;
@@ -84,10 +101,18 @@ img.stamp {
   font-size: small;
 }
 
-.message-list-item {
-  display: inline-block;
-  margin-right: 10px;
+.message-own {
+  text-align: right;
 }
+.message-own .message-user {
+  margin-left: auto;
+  margin-right: 8px;
+}
+.message-own .message-text {
+  background-color: lightgreen;
+}
+
+
 .message-list-enter-active, .message-list-leave-active {
   transition: all 1s;
 }

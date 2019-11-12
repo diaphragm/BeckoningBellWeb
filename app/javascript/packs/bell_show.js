@@ -83,18 +83,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       calcTimeAgo: function() {
         let now = new Date()
         let date = new Date(this.time)
-        let diff = new Date(now.getTime() - date.getTime())
+        let diff = new Date(Math.max(now.getTime() - date.getTime(), 0))
 
         if (diff.getUTCFullYear() - 1970) {
-          this.timeAgo = diff.getUTCFullYear() - 1970 + '年前'
+          this.timeAgo = diff.getUTCFullYear() - 1970 + 'y'
         } else if (diff.getUTCMonth()) {
-          this.timeAgo = diff.getUTCMonth() + 'ヶ月前'
+          this.timeAgo = diff.getUTCMonth() + 'mom'
         } else if (diff.getUTCDate() - 1) {
-          this.timeAgo = diff.getUTCDate() - 1 + '日前'
+          this.timeAgo = diff.getUTCDate() - 1 + 'd'
         } else if (diff.getUTCHours()) {
-          this.timeAgo = diff.getUTCHours() + '時間前'
+          this.timeAgo = diff.getUTCHours() + 'h'
         } else if (diff.getUTCMinutes()) {
-          this.timeAgo = diff.getUTCMinutes() + '分前'
+          this.timeAgo = diff.getUTCMinutes() + 'm'
         } else {
           if (diff.getUTCSeconds() >= 30) {
             this.timeAgo = Math.floor(diff.getUTCSeconds() / 10)*10 + 's'
@@ -107,12 +107,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const ChatMessage = {
-    props: ['message'],
+    props: ['message', 'user'],
     template: `
-      <div class="message-container">
-        <span class="message-user">{{ message.user }}</span>
-        <span class="message-text" v-html="message.text"></span>
-        <span class="message-time">(<time-ago v-bind:time="message.created_at"></time-ago>)</span>
+      <div>
+        <template v-if="message.user == user">
+          <div class="message-container message-own">
+          <span class="message-user">{{ message.user }}</span>
+          <span class="message-time">(<time-ago v-bind:time="message.created_at"></time-ago>)</span>
+          <span class="message-text" v-html="message.text"></span>
+          </div>
+        </template>
+        <template v-else>
+          <div class="message-container">
+            <span class="message-user">{{ message.user }}</span>
+            <span class="message-text" v-html="message.text"></span>
+            <span class="message-time">(<time-ago v-bind:time="message.created_at"></time-ago>)</span>
+          </div>
+        </template>
       </div>
     `,
     components: {
@@ -133,7 +144,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   new Vue({
     el: '#app',
     data: {
-      messages: MessageList
+      messages: MessageList,
+      user: IV.user
     },
     components: {
       'chat-message': ChatMessage,

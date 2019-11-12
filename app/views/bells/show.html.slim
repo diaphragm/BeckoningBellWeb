@@ -9,21 +9,22 @@ javascript:
   IV.chatUrl = "#{raw bell_messages_path(@bell)}"
 
 #app
-  el-container
-    el-header
+  el-container#app-container
+    el-header#app-header
       | 狩人呼びの鐘Web
-    el-main
+    el-main#app-main
       #chat-viewer
         transition-group name="message-list"
-          chat-message v-for="message in messages" v-bind:message="message" v-bind:key="message.id"
-    el-footer
+          chat-message v-for="message in messages" v-bind:message="message" v-bind:user="user" v-bind:key="message.id"
+      <el-backtop target=".el-main" v-bind:bottom="80"></el-backtop>
+    el-footer#app-footer v-bind:height="'70'"
       el-popover trigger="click"
         chat-select-text
-        el-button slot="reference"
+        el-button.chat-input-type slot="reference"
           | テキスト
       el-popover trigger="click"
         chat-select-stamp
-        el-button slot="reference"
+        el-button.chat-input-type slot="reference"
           | スタンプ
 
 / dl
