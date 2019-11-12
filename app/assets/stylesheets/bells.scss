@@ -2,26 +2,83 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+* {
+  font-family: 'Noto Serif JP', 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', self;
+}
+
+html, body, #app, .el-container {
+  margin:0;
+  padding:0;
+  border:0;
+  outline:0;
+  height: 100%;
+}
+
+.el-header {
+  background-color: lightgray;
+  text-align: center;
+  line-height: 60px;
+}
+
+.el-header {
+  height: 100px;
+}
+
+.el-main {
+  height: calc(100vh - 100px - 100px);
+}
+
+.el-footer {
+  height: 100px;
+  background-color: lightgray;
+}
+
 img.stamp {
   height: 100px;
 }
 
-img.stamp-legend {
+.chat-legend-container .el-button+.el-button {
+  margin-left: 2px;
+}
+.chat-legend-container .stamp-legend {
+  margin: 2px;
+  padding: 0px;
   height: 64px;
   width: 64px;
-  border: solid;
-  border-width: 1px;
+}
+.stamp-legend img {
+  height: 100%;
+  width: 100%;
 }
 
+.chat-legend-container .text-legend {
+  margin: 2px;
+  padding: 2px;
+  height: 64px;
+  width: 64px;
 
-div.text-legend {
-  display: inline-block;
+  white-space: normal;
   vertical-align: bottom;
-  height: 32px;
-  width: 128px;
-  border: solid;
-  border-width: 1px;
+}
 
+.message-container {
+  margin-bottom: 20px;
+  height: auto;
+}
+.message-user {
+  display: inline-block;
+  width: 64px;
+}
+.message-text {
+  display: inline-block;
+  background-color: lightgray;
+  border-radius: 20px;
+  padding: 10px;
+  vertical-align: bottom;
+}
+.message-time {
+  vertical-align: bottom;
+  color: gray;
   font-size: small;
 }
 
@@ -36,5 +93,5 @@ div.text-legend {
   opacity: 0;
 }
 .message-list-move {
-  transition: transform 1s;
+  transition: transform 0.5s;
 }

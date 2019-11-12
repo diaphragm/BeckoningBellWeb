@@ -3,7 +3,7 @@ h1 狩人呼びの鐘Web
 = form_with scope: :bell, url: bells_path do |form|
   p
     = form.label :place, 'どこで鐘を鳴らしていますか？'
-    = form.select :place, BloodborneUtil.place_list
+    = form.select :place, BloodborneUtils.place_list
 
   p
     = form.label :password, '設定した合言葉は？'
