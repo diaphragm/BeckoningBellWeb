@@ -1,7 +1,7 @@
 import consumer from "./consumer"
 
 document.addEventListener('DOMContentLoaded', function() {
-  const chatChannel = consumer.subscriptions.create({channel: "ChatChannel", bell_id: BellId}, {
+  const chatChannel = consumer.subscriptions.create({channel: "ChatChannel", bell_id: IV.bellId}, {
     connected() {
       // Called when the subscription is ready for use on the server
       console.log("Connected!")

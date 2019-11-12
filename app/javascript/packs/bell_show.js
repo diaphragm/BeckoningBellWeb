@@ -3,12 +3,11 @@ import App from '../app.vue'
 import { csrfToken } from '@rails/ujs'
 
 document.addEventListener('DOMContentLoaded', async () => {
-  window.MessageList = await (await fetch(ChatUrl)).json()
-
+  window.MessageList = await (await fetch(IV.chatUrl)).json()
   const CsrfToken = csrfToken()
 
   const postMessage = async (type, value) => {
-    fetch(ChatUrl, {
+    fetch(IV.chatUrl, {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -26,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const ChatSelectText = ({
     data: function() {
-      return {items: ChatTextList}
+      return {items: IV.chatTextList}
     },
     methods: {
       onclick: function(id) {
@@ -46,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const ChatSelectStamp = ({
     data: function () {
-      return { items: ChatStampList }
+      return { items: IV.chatStampList }
     },
     methods: {
       onclick: function (id) {

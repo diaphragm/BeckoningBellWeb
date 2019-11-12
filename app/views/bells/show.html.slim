@@ -1,11 +1,12 @@
 - user = session.dig(@bell.id, 'user')
 = javascript_pack_tag 'bell_show'
 javascript:
-  window.ChatTextList = #{raw BloodborneUtils.message_list.map{|i,x| {id: i, text: x}}.to_json}
-  window.ChatStampList = #{raw BloodborneUtils.stamp_list.map{|i,x| {id: i, text: image_path("stamps/#{x}")}}.to_json}
-  window.BellId = "#{raw @bell.id}"
-  window.User = "#{raw session.dig(@bell.id, 'user')}"
-  window.ChatUrl = "#{raw bell_messages_path(@bell)}"
+  window.IV = {} // Instance Variable
+  IV.chatTextList = #{raw BloodborneUtils.message_list.map{|i,x| {id: i, text: x}}.to_json}
+  IV.chatStampList = #{raw BloodborneUtils.stamp_list.map{|i,x| {id: i, text: image_path("stamps/#{x}")}}.to_json}
+  IV.bellId = "#{raw @bell.id}"
+  IV.user = "#{raw session.dig(@bell.id, 'user')}"
+  IV.chatUrl = "#{raw bell_messages_path(@bell)}"
 
 h1 狩人呼びの鐘Web
 
@@ -16,7 +17,6 @@ dl
   dd = @bell.password
   dt 備考
   dd = @bell.note
-
 
 #chat-viewer
   transition-group name="message-list"
