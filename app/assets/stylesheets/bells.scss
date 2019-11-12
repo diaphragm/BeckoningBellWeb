@@ -8,6 +8,10 @@
   font-family: 'Noto Serif JP', 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', self;
 }
 
+[v-cloak] {
+  display: none;
+}
+
 html, body, #app, #app-container {
   margin:0;
   padding:0;
@@ -31,6 +35,9 @@ html, body, #app, #app-container {
 }
 
 #app-footer {
+  height: 70px;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 #chat-viewer {

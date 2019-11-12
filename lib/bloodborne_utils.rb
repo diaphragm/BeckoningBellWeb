@@ -18,28 +18,53 @@ module BloodborneUtils
     初代教区長ローレンス霧前 失敗作たち霧前 時計塔のマリア霧前 ゴースの遺子霧前 聖杯ダンジョン
   ]
 
-  MESSAGE_LIST = %w[
-    出発します
-    よろしくお願いします
-    ありがとう
-    素敵なキャラクリですね
-    待ってください
-    装備を変更します
-    迷いました
-    見つからないように進みます
-    案内してください
-    レバーを引いてください
-    扉を開けてください
-    先行しないでください
-    鐘女は倒さないでください
-    参加いいですか？
-    落ちます
-    宇宙は空にある
-    さすがにおかしいなと（笑）
-    はい
-    いいえ
-    OK
-  ]
+  MESSAGE_LIST = {
+    "返答/挨拶" => %w[
+      OK
+      はい
+      いいえ
+      よろしくお願いします
+      ありがとう
+      さようなら
+      参加いいですか？
+      落ちます
+    ],
+    "進行" => %w[
+      待ちます
+      出発します
+      待ってください
+      迷いました
+      装備を変更します
+    ],
+    "依頼" => %w[
+      案内してください
+      見つからないように進みます
+      レバーを引いてください
+      扉を開けてください
+      先行しないでください
+      鐘女は倒さないでください
+    ],
+    "その他" => %w[
+      素敵なキャラクリですね
+      宇宙は空にある
+      さすがにおかしいなと(笑)
+    ],
+    "その他1" => %w[
+      素敵なキャラクリですね
+      宇宙は空にある
+      さすがにおかしいなと(笑)
+    ],
+    "その他2" => %w[
+      素敵なキャラクリですね
+      宇宙は空にある
+      さすがにおかしいなと(笑)
+    ],
+    "その他3" => %w[
+      素敵なキャラクリですね
+      宇宙は空にある
+      さすがにおかしいなと(笑)
+    ]
+  }
 
   STAMP_LIST = %w[
     banzai_obaasan.png
@@ -65,15 +90,24 @@ module BloodborneUtils
   end
 
   def message_list
-    MESSAGE_LIST.map.with_index{|x, i| [i, x]}
+    id = 0
+    list = {}
+    MESSAGE_LIST.each do |k, a|
+      list[k] = []
+      a.each do |x|
+        list[k].push({id: id, text: x})
+        id += 1
+      end
+    end
+    list
   end
 
   def find_message(index)
-    MESSAGE_LIST[index.to_i]
+    MESSAGE_LIST.values.flatten[index.to_i]
   end
 
   def stamp_list
-    STAMP_LIST.map.with_index{|x, i| [i, x]}
+    STAMP_LIST.map.with_index{|x, i| {id: i, text: x}}
   end
 
   def find_stamp(index)

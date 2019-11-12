@@ -2,13 +2,13 @@
 = javascript_pack_tag 'bell_show'
 javascript:
   window.IV = {} // Instance Variable
-  IV.chatTextList = #{raw BloodborneUtils.message_list.map{|i,x| {id: i, text: x}}.to_json}
-  IV.chatStampList = #{raw BloodborneUtils.stamp_list.map{|i,x| {id: i, text: image_path("stamps/#{x}")}}.to_json}
+  IV.chatTextList = #{raw BloodborneUtils.message_list.to_json}
+  IV.chatStampList = #{raw BloodborneUtils.stamp_list.map{|h| {id: h[:id], text: image_path("stamps/#{h[:text]}")}}.to_json}
   IV.bellId = "#{raw @bell.id}"
   IV.user = "#{raw session.dig(@bell.id, 'user')}"
   IV.chatUrl = "#{raw bell_messages_path(@bell)}"
 
-#app
+#app v-cloak=''
   el-container#app-container
     el-header#app-header
       | 狩人呼びの鐘Web
@@ -16,12 +16,13 @@ javascript:
       #chat-viewer
         transition-group name="message-list"
           chat-message v-for="message in messages" v-bind:message="message" v-bind:user="user" v-bind:key="message.id"
-      <el-backtop target=".el-main" v-bind:bottom="80"></el-backtop>
+      el-backtop target=".el-main" v-bind:bottom="80"
     el-footer#app-footer v-bind:height="'70'"
-      el-popover trigger="click"
-        chat-select-text
-        el-button.chat-input-type slot="reference"
-          | テキスト
+      - BloodborneUtils.message_list.keys.each.with_index do |key, i|
+        el-popover trigger="click"
+          chat-select-text v-bind:group='"#{key}"', v-bind:key="#{i}"
+          el-button.chat-input-type slot="reference"
+            | #{key}
       el-popover trigger="click"
         chat-select-stamp
         el-button.chat-input-type slot="reference"

@@ -30,8 +30,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const ChatSelectText = ({
+    props: ['group'],
     data: function() {
-      return {items: IV.chatTextList}
+      return {items: IV.chatTextList[this.group]}
     },
     methods: {
       onclick: function(id) {
@@ -153,5 +154,4 @@ document.addEventListener('DOMContentLoaded', async () => {
       'chat-select-stamp': ChatSelectStamp
     }
   })
-
 })
