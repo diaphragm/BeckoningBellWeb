@@ -8,7 +8,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
-document.addEventListener('turbolinks:load', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   window.MessageList = (await (await fetch(IV.chatUrl)).json()).reverse()
   const CsrfToken = csrfToken()
 

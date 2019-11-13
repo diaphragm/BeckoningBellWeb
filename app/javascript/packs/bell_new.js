@@ -8,7 +8,7 @@ import locale from 'element-ui/lib/locale'
 locale.use(lang)
 Vue.use(ElementUI)
 
-document.addEventListener('turbolinks:load', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const CsrfToken = csrfToken()
 
   const fetchBell = async (data) => {
@@ -40,7 +40,7 @@ document.addEventListener('turbolinks:load', async () => {
         let res = await fetchBell(this.form)
         window.res = res
         if (res.ok) {
-          Turbolinks.visit(res.url)
+          document.location.href = res.url
         } else {
           console.log('err')
         }

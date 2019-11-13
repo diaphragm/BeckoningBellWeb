@@ -36,9 +36,8 @@ class MessagesController < ApplicationController
 
     if @message.save
       ActionCable.server.broadcast("bell_#{@bell.id}", @message)
+      render json: @message
     end
-
-    render "bells/show"
   end
 
   private
