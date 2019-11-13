@@ -114,4 +114,8 @@ module BloodborneUtils
     STAMP_LIST[index.to_i]
   end
 
+  def host_name
+    "狩りの主"
+  end
+
 end

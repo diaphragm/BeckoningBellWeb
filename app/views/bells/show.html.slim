@@ -1,5 +1,4 @@
 - user = session.dig(@bell.id, 'user')
-= javascript_pack_tag 'bell_show'
 javascript:
   window.IV = {} // Instance Variable
   IV.chatTextList = #{raw BloodborneUtils.message_list.to_json}
@@ -8,14 +7,33 @@ javascript:
   IV.user = "#{raw session.dig(@bell.id, 'user')}"
   IV.chatUrl = "#{raw bell_messages_path(@bell)}"
 
-#app v-cloak=''
+#app-show v-cloak=''
   el-container#app-container
     el-header#app-header
-      | 狩人呼びの鐘Web
+      el-row
+        el-col v-bind:span=4 style="text-align: left;"
+          el-popover trigger="click" v-model="infoPop"
+            strong
+              | #{@bell.place}
+            | で鐘を鳴らしています。
+            el-divider content-position="center"
+              | 合言葉
+            | #{@bell.password}
+            el-divider content-position="center"
+              | 備考
+            | #{@bell.note}
+            el-button slot="reference" icon="el-icon-message-solid" circle=""
+        el-col v-bind:span=16 style="text-align: center;"
+          | 狩人呼びの鐘Web
+        el-col v-bind:span=4 style="text-align: right;"
     el-main#app-main
       #chat-viewer
         transition-group name="message-list"
           chat-message v-for="message in messages" v-bind:message="message" v-bind:user="user" v-bind:key="message.id"
+        .message-container
+          .message-text
+            | 狩人呼びの鐘Webへようこそ。下部にあるボタンから、定型文やスタンプを送信できます。
+            | ホスト(狩りの主)以外のユーザー名は、自動でランダムに選ばれます。
       el-backtop target=".el-main" v-bind:bottom="80"
     el-footer#app-footer v-bind:height="'70'"
       - BloodborneUtils.message_list.keys.each.with_index do |key, i|

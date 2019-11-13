@@ -12,7 +12,7 @@
   display: none;
 }
 
-html, body, #app, #app-container {
+html, body, #app-show, #app-container {
   margin:0;
   padding:0;
   border:0;
@@ -26,7 +26,6 @@ html, body, #app, #app-container {
 
 #app-header {
   background-color: lightgray;
-  text-align: center;
   line-height: 60px;
 }
 
@@ -132,4 +131,39 @@ button.chat-input-type {
 }
 .message-list-move {
   transition: transform 0.5s;
+}
+
+
+// new
+#app-new {
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+#app-new h1 {
+  text-align: center;
+}
+
+.now-bell {
+  padding: 10px;
+  border-bottom: lightgrey solid 1px;
+}
+.now-bell div {
+  vertical-align: middle;
+  display: inline-block;
+}
+.now-bell-link {
+  width: 30px;
+}
+.now-bell-place {
+  width: 150px;
+  margin-right: 10px;
+}
+.now-bell-note {
+  margin-left: 0;
+  margin-right: auto;
+}
+.bells-header .now-bell-note, .bells-header .now-bell-place{
+  color: gray;
+  margin-left: 20px;
 }

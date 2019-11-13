@@ -8,7 +8,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('turbolinks:load', async () => {
   window.MessageList = (await (await fetch(IV.chatUrl)).json()).reverse()
   const CsrfToken = csrfToken()
 
@@ -132,26 +132,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // new Vue({
-  //   el: '#chat-viewer',
-  //   data: {
-  //     messages: MessageList
-  //   },
-  //   components: {
-  //     'chat-message': ChatMessage
-  //   }
-  // })
-
   new Vue({
-    el: '#app',
+    el: '#app-show',
     data: {
       messages: MessageList,
-      user: IV.user
+      user: IV.user,
+      infoPop: false
     },
     components: {
       'chat-message': ChatMessage,
       'chat-select-text': ChatSelectText,
       'chat-select-stamp': ChatSelectStamp
+    },
+    mounted: function() {
+      this.infoPop = true
     }
   })
 })

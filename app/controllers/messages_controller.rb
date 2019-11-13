@@ -12,11 +12,9 @@ class MessagesController < ApplicationController
     else
       render status: 404, json: {status: 404, message: "Message Not Found"}
     end
-
   end
 
   def create
-
     @bell = Bell.find(params[:bell_id])
 
     unless session.dig(@bell.id.to_s, "user")

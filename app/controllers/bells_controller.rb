@@ -1,25 +1,30 @@
 class BellsController < ApplicationController
+  def index
+    @bells = Bell.all
+    if request.format == :json
+      render json: @bells
+    end
+  end
+
   def show
     @bell = Bell.find(params[:id])
-
-    # existing_users = @bell.messages.map{|m| m.user}.uniq
-    # session[@bell.id.to_s] ||= {"user" => BloodborneUtils.generate_hunter_name(existing_users)}
 
     if request.format == :json
       render json: @bell
     end
-  rescue ActiveRecord::RecordNotFound
-    render plain: "err"
   end
 
   def new
+    @bells = Bell.all
   end
 
   def create
-    @bell = Bell.new(bell_params)
+    tmp = bell_params
+    tmp[:place] = BloodborneUtils.find_place(tmp[:place])
+    @bell = Bell.new(tmp)
 
     if @bell.save
-      session[@bell.id.to_s] = {"user" => "狩りの主"}
+      session[@bell.id.to_s] = {"user" => BloodborneUtils.host_name}
 
       redirect_to @bell
     else

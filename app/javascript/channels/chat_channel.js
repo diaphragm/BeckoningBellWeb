@@ -1,6 +1,6 @@
 import consumer from "./consumer"
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('turbolinks:load', function() {
   const chatChannel = consumer.subscriptions.create({channel: "ChatChannel", bell_id: IV.bellId}, {
     connected() {
       // Called when the subscription is ready for use on the server

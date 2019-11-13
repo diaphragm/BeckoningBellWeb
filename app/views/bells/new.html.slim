@@ -1,17 +1,35 @@
-h1 狩人呼びの鐘Web
+javascript:
+  window.IV = {}
+  IV.bellUrl = "#{raw bells_path()}"
 
-= form_with scope: :bell, url: bells_path do |form|
-  p
-    = form.label :place, 'どこで鐘を鳴らしていますか？'
-    = form.select :place, BloodborneUtils.place_list
+#app-new
+  el-container
+    el-header
+      h1 狩人呼びの鐘Web
+    el-main
+      h2 鐘を鳴らす
+      el-form ref="form" :model="form" label-position="top"
+        el-form-item label="どこで鐘を鳴らしていますか？"
+          el-select v-model="form.place"
+            - BloodborneUtils.place_list.each do |x, i|
+              el-option label="#{x}" value="#{i}"
+        el-form-item label="設定した合言葉は？"
+          el-input v-model="form.password"
+        el-form-item label="備考"
+          el-input type="textarea" v-model="form.note"
+        el-form-item
+          el-button type="primary" @click="onSubmit" v-bind:disabled="disable"
+            | 鐘を鳴らす
 
-  p
-    = form.label :password, '設定した合言葉は？'
-    = form.text_field :password
-
-  p
-    = form.label :note, '備考'
-    = form.text_area :note
-
-  p
-    = form.submit '鐘を鳴らす'
+      el-divider
+      h2 現在募集中の鐘
+      .now-bell.bells-header
+        .now-bell-link
+        .now-bell-place 場所
+        .now-bell-note 備考
+      - @bells.reverse.each do |bell|
+        .now-bell
+          .now-bell-link
+            el-link href="#{bell_path(bell)}" icon="el-icon-message-solid"
+          .now-bell-place #{bell.place}
+          .now-bell-note #{bell.note}
