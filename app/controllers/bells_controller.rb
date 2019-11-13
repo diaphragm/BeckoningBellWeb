@@ -1,11 +1,4 @@
 class BellsController < ApplicationController
-  def index
-    @bells = Bell.all
-    if request.format == :json
-      render json: @bells
-    end
-  end
-
   def show
     @bell = Bell.find(params[:id])
 
@@ -35,7 +28,14 @@ class BellsController < ApplicationController
   def update
     @bell = Bell.find(params[:id])
     @bell.update(bell_params)
-    redirect_to @bell
+    render json: @bell
+  end
+
+  def destroy
+    @bell = Bell.find(params[:id])
+    # @bell.destroy
+
+    render json: @bell
   end
 
   private

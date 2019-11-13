@@ -31,10 +31,6 @@ javascript:
       #chat-viewer
         transition-group name="message-list"
           chat-message v-for="message in messages" v-bind:message="message" v-bind:user="iv.user" v-bind:key="message.id"
-        .message-container
-          .message-text
-            | 狩人呼びの鐘Webへようこそ。下部にあるボタンから、定型文やスタンプを送信できます。
-            | ホスト(狩りの主)以外のユーザー名は、自動でランダムに選ばれます。
       el-backtop target=".el-main" v-bind:bottom="80"
     el-footer#app-footer v-bind:height="'70'"
       - BloodborneUtils.message_list.keys.each.with_index do |key, i|

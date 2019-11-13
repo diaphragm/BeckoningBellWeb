@@ -9,8 +9,17 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
 document.addEventListener('DOMContentLoaded', async () => {
-  window.MessageList = (await (await fetch(IV.chatUrl)).json()).reverse()
   const CsrfToken = csrfToken()
+
+  window.MessageList = (await (await fetch(IV.chatUrl)).json()).reverse()
+  window.MessageList.unshift({
+    id: 'sytem-init',
+    text: `
+      狩人呼びの鐘Webへようこそ。下部にあるボタンから、定型文やスタンプを送信できます。
+      ホスト(狩りの主)以外のユーザー名は、自動でランダムに選ばれます。
+    `,
+    created_at: (new Date()).getTime()
+  })
 
   const postMessage = async (type, value) => {
     return fetch(IV.chatUrl, {
@@ -104,7 +113,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else if (diff.getUTCMinutes()) {
           this.timeAgo = diff.getUTCMinutes() + 'm'
         } else {
-          if (diff.getUTCSeconds() >= 30) {
+          if (diff.getUTCSeconds() >= 20) {
             this.timeAgo = Math.floor(diff.getUTCSeconds() / 10)*10 + 's'
           } else {
             this.timeAgo = 'now'
