@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const CsrfToken = csrfToken()
 
   const postMessage = async (type, value) => {
-    fetch(IV.chatUrl, {
+    return fetch(IV.chatUrl, {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -35,8 +35,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       return {items: IV.chatTextList[this.group]}
     },
     methods: {
-      onclick: function(id) {
-        postMessage('text', id)
+      onclick: async function(id) {
+        let res = await postMessage('text', id)
+        if (res.ok) {
+          IV.user = (await res.json()).user
+        }
       }
     },
     template: `
@@ -55,9 +58,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       return { items: IV.chatStampList }
     },
     methods: {
-      onclick: function (id) {
-        postMessage('stamp', id)
+      onclick: async function (id) {
+        let res = await postMessage('stamp', id)
+        if (res.ok) {
+          IV.user = (await res.json()).user
+        }
       }
+
     },
     template: `
       <div class="chat-legend-container">
@@ -136,8 +143,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     el: '#app-show',
     data: {
       messages: MessageList,
-      user: IV.user,
-      infoPop: false
+      infoPop: false,
+      iv: window.IV
     },
     components: {
       'chat-message': ChatMessage,

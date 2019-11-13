@@ -5,7 +5,7 @@ javascript:
   IV.chatTextList = #{raw BloodborneUtils.message_list.to_json}
   IV.chatStampList = #{raw BloodborneUtils.stamp_list.map{|h| {id: h[:id], text: image_path("stamps/#{h[:text]}")}}.to_json}
   IV.bellId = "#{raw @bell.id}"
-  IV.user = "#{raw session.dig(@bell.id, 'user')}"
+  IV.user = "#{raw user}"
   IV.chatUrl = "#{raw bell_messages_path(@bell)}"
 
 #app-show v-cloak=''
@@ -30,7 +30,7 @@ javascript:
     el-main#app-main
       #chat-viewer
         transition-group name="message-list"
-          chat-message v-for="message in messages" v-bind:message="message" v-bind:user="user" v-bind:key="message.id"
+          chat-message v-for="message in messages" v-bind:message="message" v-bind:user="iv.user" v-bind:key="message.id"
         .message-container
           .message-text
             | 狩人呼びの鐘Webへようこそ。下部にあるボタンから、定型文やスタンプを送信できます。
