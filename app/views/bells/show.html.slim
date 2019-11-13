@@ -1,5 +1,6 @@
 - user = session.dig(@bell.id, 'user')
 = javascript_pack_tag 'bell_show'
+= stylesheet_pack_tag 'bell_show'
 javascript:
   window.IV = {} // Instance Variable
   IV.chatTextList = #{raw BloodborneUtils.message_list.to_json}
