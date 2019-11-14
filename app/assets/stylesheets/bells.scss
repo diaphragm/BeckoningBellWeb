@@ -1,3 +1,198 @@
 // Place all the styles related to the Bells controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif+JP&display=swap');
+
+* {
+  font-family: 'Noto Serif JP', 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', self;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+html, body, #app-show, #app-container {
+  margin:0;
+  padding:0;
+  border:0;
+  outline:0;
+  height: 100%;
+}
+
+#app-container {
+  width: 100%;
+}
+
+#app-header {
+  background-color: lightgray;
+  line-height: 60px;
+}
+.header-row {
+  vertical-align: middle;
+}
+
+#app-main {
+  height: calc(100vh - 100px - 100px);
+}
+
+#app-footer {
+  height: 70px;
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+
+#chat-viewer {
+  max-width: 640px;
+}
+
+img.stamp {
+  height: 100px;
+}
+
+.chat-legend-container {
+  user-select: none;
+}
+
+.chat-legend-container .el-button+.el-button {
+  margin-left: 2px;
+}
+.chat-legend-container .stamp-legend {
+  margin: 2px;
+  padding: 0px;
+  height: 64px;
+  width: 64px;
+}
+.stamp-legend img {
+  height: 100%;
+  width: 100%;
+}
+
+button.chat-input-type {
+  margin: 2px;
+  padding: 2px;
+  height: 64px;
+  width: 64px;
+
+  white-space: normal;
+  vertical-align: bottom;
+}
+
+.chat-legend-container .text-legend, .chat-input-type {
+  margin: 2px;
+  padding: 2px;
+  height: 64px;
+  width: 64px;
+
+  white-space: normal;
+  vertical-align: bottom;
+}
+
+.message-container {
+  margin-bottom: 15px;
+  height: auto;
+}
+.message-container span {
+  width: fit-content;
+}
+.message-user {
+  margin-left: 8px;
+  display: block;
+  font-size: small;
+  font-weight: bold;
+}
+.message-text {
+  display: inline-block;
+  background-color: lightgray;
+  border-radius: 20px;
+  padding: 10px;
+  vertical-align: bottom;
+}
+.message-time {
+  vertical-align: bottom;
+  color: gray;
+  font-size: small;
+}
+
+.message-own {
+  text-align: right;
+}
+.message-own .message-user {
+  margin-left: auto;
+  margin-right: 8px;
+}
+.message-own .message-text {
+  background-color: lightgreen;
+}
+
+
+.message-list-enter-active, .message-list-leave-active {
+  transition: all 1s;
+}
+.message-list-enter, .message-list-leave-to {
+  opacity: 0;
+}
+.message-list-move {
+  transition: transform 0.5s;
+}
+
+.config-dialog {
+  text-align: initial;
+  line-height: initial;
+}
+// Element UI dialogがモバイルで見ると幅が小さすぎる
+.el-dialog {
+  min-width: fit-content;
+}
+// Element UI confirmがモバイルで見ると幅がでかすぎる
+.el-message-box {
+  max-width: fit-content;
+}
+
+
+// new
+#app-new {
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+#app-new h1 {
+  text-align: center;
+}
+
+.now-bell {
+  padding: 10px;
+  border-top: lightgrey solid 1px;
+}
+.now-bell div {
+}
+.now-bell-place {
+  font-weight: bold;
+  display: inline-block;
+  width: fit-content;
+}
+.now-bell-note {
+}
+.now-bell-note pre{
+  white-space: pre-wrap;
+}
+.now-bell-link {
+  display: inline-block;
+  width: fit-content;
+  float: right;
+}
+.now-bell-link a {
+  margin-left: 5px;
+}
+.now-bell-time {
+  width: fit-content;
+  margin-right: 0;
+  margin-left: auto;
+
+  font-size: x-small;
+  color: gray;
+}
+// .bell-header .now-bell-note, .bell-header .now-bell-place{
+//   color: gray;
+//   margin-left: 20px;
+// }
