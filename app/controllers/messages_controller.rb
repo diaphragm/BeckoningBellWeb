@@ -1,12 +1,12 @@
 class MessagesController < ApplicationController
   def index
-    bell = Bell.find(params[:bell_id])
+    bell = Bell.availables.find(params[:bell_id])
     messages = bell.messages.all
     render json: messages
   end
 
   def show
-    message = Message.find(params[:id])
+    message = Message.availables.find(params[:id])
     if message.bell_id == params[:bell_id]
       render json: message
     else
@@ -15,7 +15,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    @bell = Bell.find(params[:bell_id])
+    @bell = Bell.availables.find(params[:bell_id])
 
     unless session.dig(@bell.id.to_s, "user")
       existing_users = @bell.messages.map{|m| m.user}.uniq

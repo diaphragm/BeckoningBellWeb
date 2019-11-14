@@ -21,5 +21,7 @@ module BeckoningBellWeb
     config.i18n.default_locale = :ja
 
     config.paths.add 'lib', eager_load: true
+
+    config.x.bell_expiration_date = 1.hour
   end
 end

@@ -1,6 +1,6 @@
 class BellsController < ApplicationController
   def show
-    @bell = Bell.find(params[:id])
+    @bell = Bell.availables.find(params[:id])
 
     if request.format == :json
       render json: @bell
@@ -8,7 +8,7 @@ class BellsController < ApplicationController
   end
 
   def new
-    @bells = Bell.all
+    @bells = Bell.availables.all
   end
 
   def create
@@ -22,7 +22,7 @@ class BellsController < ApplicationController
   end
 
   def update
-    @bell = Bell.find(params[:id])
+    @bell = Bell.availables.find(params[:id])
 
     session[@bell.id.to_s]
     BloodborneUtils.host_name
@@ -36,10 +36,10 @@ class BellsController < ApplicationController
   end
 
   def destroy
-    @bell = Bell.find(params[:id])
+    @bell = Bell.availables.find(params[:id])
     return unless session[@bell.id.to_s]["user"] == BloodborneUtils.host_name
 
-    if @bell.destroy
+    if @bell.delete_logical
       ActionCable.server.broadcast("room_#{@bell.id}", {deleted: true})
       render json: @bell
     end

@@ -4,6 +4,7 @@ class CreateBells < ActiveRecord::Migration[6.0]
       t.string :place
       t.string :password
       t.text :note
+      t.datetime :deleted_at
 
       t.timestamps
     end
