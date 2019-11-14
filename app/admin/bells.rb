@@ -15,4 +15,14 @@ ActiveAdmin.register Bell do
   #   permitted
   # end
 
+  index do
+    Bell.column_names.each do |col|
+      column col
+    end
+  end
+
+  Bell.column_names.each do |col|
+    filter col
+  end
+  filter :place, as: :select, collection: BloodborneUtils::PLACE_LIST
 end
