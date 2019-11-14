@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             type: 'warning'
           })
           sendSystemMessage(`
-            ホストにより募集が終了しました。お疲れ様でした。
+            募集は終了しました。お疲れ様でした。
             <a href="/" class="el-link el-link--default is-underline">TOPに戻る</a>
           `)
         } else {
