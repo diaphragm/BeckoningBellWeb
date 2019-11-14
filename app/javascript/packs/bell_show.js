@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   window.MessageList = (await (await fetch(IV.messagesUrl )).json()).reverse()
 
+  let smKey = 0
   const sendSystemMessage = (message) => {
     MessageList.unshift({
-      id: 'sytem-init',
+      id: 'sytem' + smKey++,
       text: message,
       created_at: (new Date()).getTime()
     })
@@ -195,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             type: 'warning'
           })
           sendSystemMessage(`
-            お疲れ様でした。ホストにより募集が終了しました。
+            ホストにより募集が終了しました。お疲れ様でした。
             <a href="/" class="el-link el-link--default is-underline">TOPに戻る</a>
           `)
         } else {
@@ -224,6 +225,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   })
 
+  if (IV.user) {
+    sendSystemMessage(`
+      募集は一定時間で自動的に終了しますが、他の協力者のためにも
+      協力プレイを終える際には手動で募集を終了するようご協力をお願いします。
+    `)
+    sendSystemMessage(`
+      右上のボタンから募集を終了したり、鐘の情報を更新することができます。
+    `)
+  }
   sendSystemMessage(`
     狩人呼びの鐘Webへようこそ。下部にあるボタンから、定型文やスタンプを送信できます。
     ホスト(狩りの主)以外のユーザー名は、自動でランダムに選ばれます。

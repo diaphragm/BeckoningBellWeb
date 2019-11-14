@@ -23,12 +23,14 @@ module BloodborneUtils
       OK
       はい
       いいえ
+      参加いいですか？
       よろしくお願いします
-      間違えました
-      ごめんなさい
       ありがとう
+      ごめんなさい
+      間違えました
       さようなら
       落ちます
+      少し離席します
     ],
     "ホスト向け" => %w[
       待ちます
@@ -38,35 +40,30 @@ module BloodborneUtils
       案内してください
       先行しないでください
       鐘女は倒さないでください
+    ],
+    "戦略" => %w[
+      走れ！
       見つからないように進みます
-      敵は無視します
-      敵は倒します
-      アイテムは回収します
-      アイテムは無視します
-    ],
-    "ゲスト向け" => %w[
-      参加いいですか？
-      案内しましょうか？
-      待ってください
-      少し離席します
-      どこにいますか？
-    ],
-    "聖杯" => %w[
-      レバーを引いてください
-      扉を開けてください
-      上の方にいます
-      下の方にいます
-      灯りの近くにいます
-      宝箱の近くにいます
-      灯り前横道にいます
-      レバーの近くにいます
-      ボス前横道にいます
-    ],
-    "その他" => %w[
-      合流しましょう
       油壷投げてください
       油壷投げます
+      敵を倒します
+      敵を無視します
+      アイテムは無視します
+      アイテムは回収します
+      手を出さないでください
+      交互に殴りましょう
+      1体づつ釣りましょう
+      突撃しましょう
+      走り抜けましょう
+    ],
+    "ヒント/その他" => %w[
+      ショートカットがあります
+      アイテムがあります
+      罠があります
+      敵に注意
       素敵なキャラクリですね
+      がんばれ！
+      君は正しく、そして幸運だ
       宇宙は空にある
       さすがにおかしいなと(笑)
     ]
@@ -74,10 +71,30 @@ module BloodborneUtils
 
   STAMP_LIST = %w[
     banzai_obaasan.png
+    pose_ganbarou_man.png
+    ok_woman.png
+    hand_good.png
+    hakusyu.png
     byebye_girl.png
-    job_shitsuji_oldman.png
-    omairi_girl.png
-    medical_touchukasou_semi.png
+    pose_inoru_woman.png
+    pose_kiri_man.png
+    sick_panic_man.png
+    tehepero3_business_ojisan.png
+    knock_man.png
+    message_arigatou.png
+    message_gomennasai.png
+    message_omedetou.png
+    message_otsukaresama.png
+    message_yoroshiku.png
+    message_tasukarimashita.png
+    text_sankasya_bosyu.png
+    text_syoshinsya_kangei.png
+    text_abunai_h.png
+    spiritual_woman.png
+    animal_pig_buta.png
+    bug_seakagokegumo.png
+    character_cthulhu_yog_sothoth.png
+    character_cthulhu_shoggoth.png
   ]
 
   def generate_hunter_name(exclude = [])

@@ -48,6 +48,7 @@ html, body, #app-show, #app-container {
 
 img.stamp {
   height: 100px;
+  max-width: 100%;
 }
 
 .chat-legend-container {
@@ -93,7 +94,7 @@ button.chat-input-type {
   height: auto;
 }
 .message-container span {
-  width: fit-content;
+  max-width: calc(100% - 4ch);
 }
 .message-user {
   margin-left: 8px;
