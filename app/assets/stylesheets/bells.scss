@@ -173,6 +173,9 @@ button.chat-input-type {
 }
 .now-bell-note {
 }
+.now-bell-note pre{
+  white-space: pre-wrap;
+}
 .now-bell-link {
   display: inline-block;
   width: fit-content;
