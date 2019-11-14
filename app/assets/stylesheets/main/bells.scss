@@ -39,7 +39,7 @@ html, body, #app-show, #app-container {
 #app-footer {
   height: 70px;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 #chat-viewer {
