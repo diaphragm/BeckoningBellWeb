@@ -12,7 +12,7 @@ javascript:
       h2 鐘を鳴らす
       el-form ref="form" :model="form" label-position="top"
         el-form-item label="どこで鐘を鳴らしていますか？"
-          el-select v-model="form.place"
+          el-select v-model="form.placeId"
             - BloodborneUtils.place_list.each do |x, i|
               el-option label="#{x}" value="#{i}"
         el-form-item label="設定した合言葉は？"

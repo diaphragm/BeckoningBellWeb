@@ -25,12 +25,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const fetchBell = async (data) => {
     return fetchAPI(IV.bellUrl, 'POST', {
-        place: data.place,
+      bell: {
+        place_id: data.placeId,
         password: data.password,
         note: data.note
+      }
     })
   }
-
 
   new Vue({
     el: '#app-new',
@@ -63,5 +64,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   })
 })
-
-// in

@@ -24,8 +24,8 @@ class BellsController < ApplicationController
   def update
     @bell = Bell.find(params[:id])
 
-    p session[@bell.id.to_s]
-    p BloodborneUtils.host_name
+    session[@bell.id.to_s]
+    BloodborneUtils.host_name
 
     return unless session[@bell.id.to_s]["user"] == BloodborneUtils.host_name
 

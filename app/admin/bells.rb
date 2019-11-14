@@ -16,6 +16,8 @@ ActiveAdmin.register Bell do
   # end
 
   index do
+    selectable_column
+
     Bell.column_names.each do |col|
       column col
     end
