@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_011510) do
     t.string "place"
     t.string "password"
     t.text "note"
+    t.string "tweet_uri"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

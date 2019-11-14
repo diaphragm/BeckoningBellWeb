@@ -1,4 +1,11 @@
 class BellsController < ApplicationController
+  TWITTER_CLIENT = Twitter::REST::Client.new do |config|
+    config.consumer_key        = Rails.application.credentials.twitter[:consumer_key]
+    config.consumer_secret     = Rails.application.credentials.twitter[:consumer_secret]
+    config.access_token        = Rails.application.credentials.twitter[:access_token]
+    config.access_token_secret = Rails.application.credentials.twitter[:access_secret]
+  end
+
   def show
     @bell = Bell.availables.find(params[:id])
 
@@ -18,6 +25,10 @@ class BellsController < ApplicationController
       session[@bell.id.to_s] = {"user" => BloodborneUtils.host_name}
 
       redirect_to @bell
+
+      tweet = %[#{@bell.place}で鐘鳴らしてます。#{url_for(@bell)}\n#{@bell.note}][0..139].chomp
+      res = TWITTER_CLIENT.update(tweet)
+      @bell.update(tweet_uri: res.uri)
     end
   end
 
@@ -32,6 +43,11 @@ class BellsController < ApplicationController
     if @bell.update(bell_params)
       ActionCable.server.broadcast("room_#{@bell.id}", @bell)
       render json: @bell
+
+      tweet = %[[更新] #{@bell.place}で鐘鳴らしてます。#{url_for(@bell)}\n#{@bell.note}][0..139].chomp \
+            + @bell.tweet_uri.to_s
+      res = TWITTER_CLIENT.update(tweet)
+      @bell.update(tweet_uri: res.uri)
     end
   end
 
@@ -42,6 +58,9 @@ class BellsController < ApplicationController
     if @bell.delete_logical
       ActionCable.server.broadcast("room_#{@bell.id}", {deleted: true})
       render json: @bell
+
+      tweet = %[[終了] 募集は終了しました。] + @bell.tweet_uri.to_s
+      res = TWITTER_CLIENT.update(tweet)
     end
   end
 
