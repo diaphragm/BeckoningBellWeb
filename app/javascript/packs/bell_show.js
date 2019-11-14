@@ -11,31 +11,51 @@ Vue.use(ElementUI)
 document.addEventListener('DOMContentLoaded', async () => {
   const CsrfToken = csrfToken()
 
-  window.MessageList = (await (await fetch(IV.chatUrl)).json()).reverse()
-  window.MessageList.unshift({
-    id: 'sytem-init',
-    text: `
-      狩人呼びの鐘Webへようこそ。下部にあるボタンから、定型文やスタンプを送信できます。
-      ホスト(狩りの主)以外のユーザー名は、自動でランダムに選ばれます。
-    `,
-    created_at: (new Date()).getTime()
-  })
+  window.MessageList = (await (await fetch(IV.messagesUrl )).json()).reverse()
 
-  const postMessage = async (type, value) => {
-    return fetch(IV.chatUrl, {
-      method: "POST",
+  const sendSystemMessage = (message) => {
+    MessageList.unshift({
+      id: 'sytem-init',
+      text: message,
+      created_at: (new Date()).getTime()
+    })
+  }
+
+  const fetchAPI = async (url, method, data) => {
+    return fetch(url, {
+      method: method,
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
         "X-CSRF-Token": CsrfToken
       },
-      body: JSON.stringify({
-        message: {
-          type: type,
-          value: value
-        }
-      })
+      body: JSON.stringify(data)
     })
+  }
+
+  const postMessage = async (type, value) => {
+    let data = {
+      message: {
+        type: type,
+        value: value
+      }
+    }
+    return fetchAPI(IV.messagesUrl , 'POST', data)
+  }
+
+  const updateBell = async (placeId, password, note) => {
+    let data = {
+      bell: {
+        place_id: placeId,
+        password: password,
+        note: note
+      }
+    }
+    return fetchAPI(IV.bellUrl , 'PATCH', data)
+  }
+
+  const destroyBell = async () => {
+    return fetchAPI(IV.bellUrl, 'DELETE')
   }
 
   const ChatSelectText = ({
@@ -151,9 +171,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   new Vue({
     el: '#app-show',
     data: {
+      iv: window.IV,
       messages: MessageList,
       infoPop: false,
-      iv: window.IV
+      configOpen: false,
+      configFormData: Object.assign({}, IV.bell),
+      configButtonDisable: false,
+      blankShotButtonDisable: false,
     },
     components: {
       'chat-message': ChatMessage,
@@ -162,6 +186,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     },
     mounted: function() {
       this.infoPop = true
+    },
+    watch: {
+      'iv.bell': function() {
+        if( IV.bell.deleted) {
+          this.$message({
+            message: '鐘の共鳴が破れました。',
+            type: 'warning'
+          })
+          sendSystemMessage(`
+            お疲れ様でした。ホストにより募集が終了しました。
+            <a href="/" class="el-link el-link--default is-underline">TOPに戻る</a>
+          `)
+        } else {
+          this.configFormData = Object.assign({}, IV.bell)
+          this.$message('鐘の情報が更新されました。')
+          this.infoPop = true
+        }
+      }
+    },
+    methods: {
+      configChange: async function() {
+        this.configOpen = false
+        let placeId = IV.placeReverseData[this.configFormData.place]
+        await updateBell(placeId, this.configFormData.password, this.configFormData.note)
+      },
+      blankShot: async function() {
+        this.$confirm('募集を終了してよろしいですか？', '共鳴破りの空砲',{
+          confirmButtonText: 'はい',
+          cancelButtonText: 'いいえ',
+          type: 'warning'
+        }).then(async () => {
+            this.configOpen = false
+            await destroyBell()
+        })
+      }
     }
   })
+
+  sendSystemMessage(`
+    狩人呼びの鐘Webへようこそ。下部にあるボタンから、定型文やスタンプを送信できます。
+    ホスト(狩りの主)以外のユーザー名は、自動でランダムに選ばれます。
+  `)
 })

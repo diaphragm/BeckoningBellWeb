@@ -12,35 +12,44 @@ class BellsController < ApplicationController
   end
 
   def create
-    tmp = bell_params
-    tmp[:place] = BloodborneUtils.find_place(tmp[:place])
-    @bell = Bell.new(tmp)
+    @bell = Bell.new(bell_params)
 
     if @bell.save
       session[@bell.id.to_s] = {"user" => BloodborneUtils.host_name}
 
       redirect_to @bell
-    else
-      render plain: "err"
     end
   end
 
   def update
     @bell = Bell.find(params[:id])
-    @bell.update(bell_params)
-    render json: @bell
+
+    return unless session[@bell.id.to_s] == BloodborneUtils.host_name
+
+    if @bell.update(bell_params)
+      ActionCable.server.broadcast("room_#{@bell.id}", @bell)
+      render json: @bell
+    end
   end
 
   def destroy
     @bell = Bell.find(params[:id])
-    # @bell.destroy
+    return unless session[@bell.id.to_s] == BloodborneUtils.host_name
 
-    render json: @bell
+    if @bell.destroy
+      ActionCable.server.broadcast("room_#{@bell.id}", {deleted: true})
+      render json: @bell
+    end
   end
 
   private
 
   def bell_params
-    params.require(:bell).permit(:place, :password, :note)
+    data = params.require(:bell).permit(:place_id, :password, :note)
+    ret = {}
+    ret[:place] = BloodborneUtils.find_place(data[:place_id])
+    ret[:password] = data[:password]
+    ret[:note] = data[:note]
+    ret
   end
 end

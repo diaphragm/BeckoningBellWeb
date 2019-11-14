@@ -11,19 +11,23 @@ Vue.use(ElementUI)
 document.addEventListener('DOMContentLoaded', async () => {
   const CsrfToken = csrfToken()
 
-  const fetchBell = async (data) => {
-    return fetch(IV.bellUrl, {
-      method: "POST",
+  const fetchAPI = async (url, method, data) => {
+    return fetch(url, {
+      method: method,
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
         "X-CSRF-Token": CsrfToken
       },
-      body: JSON.stringify({
+      body: JSON.stringify(data)
+    })
+  }
+
+  const fetchBell = async (data) => {
+    return fetchAPI(IV.bellUrl, 'POST', {
         place: data.place,
         password: data.password,
         note: data.note
-      })
     })
   }
 
@@ -45,6 +49,16 @@ document.addEventListener('DOMContentLoaded', async () => {
           console.log('err')
         }
         this.disable = false
+      },
+      deleteBell: function(path) {
+        this.$confirm('募集を終了してよろしいですか？', '共鳴破りの空砲', {
+          confirmButtonText: 'はい',
+          cancelButtonText: 'いいえ',
+          type: 'warning'
+        }).then(async () => {
+          await fetchAPI(path, 'DELETE')
+          location.reload()
+        })
       }
     }
   })

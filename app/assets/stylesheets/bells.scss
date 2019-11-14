@@ -28,6 +28,9 @@ html, body, #app-show, #app-container {
   background-color: lightgray;
   line-height: 60px;
 }
+.header-row {
+  vertical-align: middle;
+}
 
 #app-main {
   height: calc(100vh - 100px - 100px);
@@ -36,7 +39,7 @@ html, body, #app-show, #app-container {
 #app-footer {
   height: 70px;
   white-space: nowrap;
-  overflow-x: auto;
+  overflow-x: scroll;
 }
 
 #chat-viewer {
@@ -133,6 +136,19 @@ button.chat-input-type {
   transition: transform 0.5s;
 }
 
+.config-dialog {
+  text-align: initial;
+  line-height: initial;
+}
+// Element UI dialogがモバイルで見ると幅が小さすぎる
+.el-dialog {
+  min-width: fit-content;
+}
+// Element UI confirmがモバイルで見ると幅がでかすぎる
+.el-message-box {
+  max-width: fit-content;
+}
+
 
 // new
 #app-new {
@@ -146,24 +162,34 @@ button.chat-input-type {
 
 .now-bell {
   padding: 10px;
-  border-bottom: lightgrey solid 1px;
+  border-top: lightgrey solid 1px;
 }
 .now-bell div {
-  vertical-align: middle;
-  display: inline-block;
-}
-.now-bell-link {
-  width: 30px;
 }
 .now-bell-place {
-  width: 150px;
-  margin-right: 10px;
+  font-weight: bold;
+  display: inline-block;
+  width: fit-content;
 }
 .now-bell-note {
-  margin-left: 0;
-  margin-right: auto;
 }
-.bells-header .now-bell-note, .bells-header .now-bell-place{
+.now-bell-link {
+  display: inline-block;
+  width: fit-content;
+  float: right;
+}
+.now-bell-link a {
+  margin-left: 5px;
+}
+.now-bell-time {
+  width: fit-content;
+  margin-right: 0;
+  margin-left: auto;
+
+  font-size: x-small;
   color: gray;
-  margin-left: 20px;
 }
+// .bell-header .now-bell-note, .bell-header .now-bell-place{
+//   color: gray;
+//   margin-left: 20px;
+// }

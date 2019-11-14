@@ -1,33 +1,56 @@
 - user = session.dig(@bell.id, 'user')
+- bell = @bell
 = javascript_pack_tag 'bell_show'
 = stylesheet_pack_tag 'bell_show'
 javascript:
   window.IV = {} // Instance Variable
   IV.chatTextList = #{raw BloodborneUtils.message_list.to_json}
   IV.chatStampList = #{raw BloodborneUtils.stamp_list.map{|h| {id: h[:id], text: image_path("stamps/#{h[:text]}")}}.to_json}
-  IV.bellId = "#{raw @bell.id}"
+  IV.placeReverseData = #{raw BloodborneUtils.place_list.each.with_object({}){|(x,i),h| h[x] = i}.to_json}
   IV.user = "#{raw user}"
-  IV.chatUrl = "#{raw bell_messages_path(@bell)}"
+  IV.bell = #{raw bell.to_json}
+  IV.bellUrl = "#{raw bell_path(@bell)}"
+  IV.messagesUrl = "#{raw bell_messages_path(@bell)}"
 
 #app-show v-cloak=''
   el-container#app-container
     el-header#app-header
-      el-row
+      el-row.header-row
         el-col v-bind:span=4 style="text-align: left;"
           el-popover trigger="click" v-model="infoPop"
             strong
-              | #{@bell.place}
+              | {{ iv.bell.place }}
             | で鐘を鳴らしています。
             el-divider content-position="center"
               | 合言葉
-            | #{@bell.password}
+            | {{ iv.bell.password }}
             el-divider content-position="center"
               | 備考
-            | #{@bell.note}
+            pre
+              | {{ iv.bell.note }}
             el-button slot="reference" icon="el-icon-message-solid" circle=""
         el-col v-bind:span=16 style="text-align: center;"
           | 狩人呼びの鐘Web
         el-col v-bind:span=4 style="text-align: right;"
+          - if user == BloodborneUtils.host_name
+            el-button @click="configOpen = true" icon="el-icon-s-tools"
+            el-dialog.config-dialog title="設定" :visible.sync="configOpen"
+              el-divider 募集を終了する
+              div style="text-align: center;"
+                el-button type="danger" @click="blankShot" v-bind:disabled="blankShotButtonDisable" 空砲を鳴らす
+              el-divider 鐘の情報を更新
+              el-form ref="config" :model="configFormData" label-position="top"
+                el-form-item label="どこで鐘を鳴らしていますか？"
+                  el-select v-model="configFormData.place"
+                    - BloodborneUtils.place_list.each do |x,|
+                      el-option label="#{x}" value="#{x}"
+                el-form-item label="設定した合言葉は？"
+                  el-input v-model="configFormData.password"
+                el-form-item label="備考"
+                  el-input type="textarea" v-model="configFormData.note"
+                el-form-item
+                  div style="text-align: center;"
+                    el-button type="primary" @click="configChange" v-bind:disabled="configButtonDisable" 更新
     el-main#app-main
       #chat-viewer
         transition-group name="message-list"
@@ -43,16 +66,3 @@ javascript:
         chat-select-stamp
         el-button.chat-input-type slot="reference"
           | スタンプ
-
-/ dl
-/   dt 場所
-/   dd = @bell.place
-/   dt 合言葉
-/   dd = @bell.password
-/   dt 備考
-/   dd = @bell.note
-
-/ - if user
-/   |あなたは#{user}です。
-/   - unless user == "狩りの主"
-/     |(名前はランダム)

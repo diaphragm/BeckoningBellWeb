@@ -4,7 +4,7 @@ javascript:
   window.IV = {}
   IV.bellUrl = "#{raw bells_path()}"
 
-#app-new
+#app-new v-cloak=''
   el-container
     el-header
       h1 狩人呼びの鐘Web
@@ -25,13 +25,14 @@ javascript:
 
       el-divider
       h2 現在募集中の鐘
-      .now-bell.bells-header
-        .now-bell-link
-        .now-bell-place 場所
-        .now-bell-note 備考
       - @bells.reverse.each do |bell|
         .now-bell
-          .now-bell-link
-            el-link href="#{bell_path(bell)}" icon="el-icon-message-solid"
           .now-bell-place #{bell.place}
-          .now-bell-note #{bell.note}
+          .now-bell-link
+            - if session.dig(bell.id, 'user') == BloodborneUtils.host_name
+              el-link @click="deleteBell('#{bell_path(bell)}')" icon="el-icon-error" 空砲する
+            el-link href="#{bell_path(bell)}" icon="el-icon-message-solid" 共鳴する
+          .now-bell-note
+            pre #{bell.note}
+          .now-bell-time
+            | (#{time_ago_in_words(bell.updated_at)}前)

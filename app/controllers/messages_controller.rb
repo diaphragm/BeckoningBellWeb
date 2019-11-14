@@ -35,7 +35,7 @@ class MessagesController < ApplicationController
     @message = @bell.messages.new(new_message)
 
     if @message.save
-      ActionCable.server.broadcast("bell_#{@bell.id}", @message)
+      ActionCable.server.broadcast("chat_#{@bell.id}", @message)
       render json: @message
     end
   end
