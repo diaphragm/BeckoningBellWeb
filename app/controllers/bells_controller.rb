@@ -24,7 +24,10 @@ class BellsController < ApplicationController
   def update
     @bell = Bell.find(params[:id])
 
-    return unless session[@bell.id.to_s] == BloodborneUtils.host_name
+    p session[@bell.id.to_s]
+    p BloodborneUtils.host_name
+
+    return unless session[@bell.id.to_s]["user"] == BloodborneUtils.host_name
 
     if @bell.update(bell_params)
       ActionCable.server.broadcast("room_#{@bell.id}", @bell)
@@ -34,7 +37,7 @@ class BellsController < ApplicationController
 
   def destroy
     @bell = Bell.find(params[:id])
-    return unless session[@bell.id.to_s] == BloodborneUtils.host_name
+    return unless session[@bell.id.to_s]["user"] == BloodborneUtils.host_name
 
     if @bell.destroy
       ActionCable.server.broadcast("room_#{@bell.id}", {deleted: true})
