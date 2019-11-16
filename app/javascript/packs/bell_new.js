@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRF-Token": CsrfToken
+        "X-CSRF-Token": CsrfToken,
+        'X-Requested-With': 'XMLHttpRequest'
       },
       body: JSON.stringify(data)
     })
@@ -57,11 +58,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (valid) {
             this.disable = true
             let res = await fetchBell(this.form)
-            window.res = res
             if (res.ok) {
               document.location.href = res.url
-            } else {
-              console.log('err')
             }
             this.disable = false
           }

@@ -50,9 +50,8 @@ class BellsController < ApplicationController
 
     if @bell.delete_logical
       ActionCable.server.broadcast("room_#{@bell.id}", {deleted: true})
-      render json: @bell
-
       Twitter::CLIENT.destroy_status(@bell.tweet_uri)
+      render json: @bell
     end
   end
 

@@ -6,11 +6,11 @@ class MessagesController < ApplicationController
   end
 
   def show
-    message = Message.available.find(params[:id])
-    if message.bell_id == params[:bell_id]
+    message = Message.find(params[:id])
+    if message.bell_id == params[:bell_id].to_i
       render json: message
     else
-      render status: 404, json: {status: 404, message: "Message Not Found"}
+      raise ActiveRecord::RecordNotFound
     end
   end
 

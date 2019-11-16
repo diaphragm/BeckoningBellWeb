@@ -9,8 +9,9 @@ class MaintenanceController < ApplicationController
       if bell.delete_logical
         ActionCable.server.broadcast("room_#{bell.id}", {deleted: true})
         Twitter::CLIENT.destroy_status(bell.tweet_uri)
-        logger.info("cleanup #{bell}")
-        items << bell
+        items << {err: false, data: bell}
+      rescue
+        items << {err: true, data: bell}
       end
     end
 

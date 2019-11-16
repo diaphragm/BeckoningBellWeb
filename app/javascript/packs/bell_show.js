@@ -1,7 +1,6 @@
 require("channels")
 
 import Vue from 'vue/dist/vue.esm'
-import App from '../app.vue'
 import { csrfToken } from '@rails/ujs'
 
 import ElementUI from 'element-ui'
@@ -28,7 +27,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRF-Token": CsrfToken
+        "X-CSRF-Token": CsrfToken,
+        'X-Requested-With': 'XMLHttpRequest'
       },
       body: JSON.stringify(data)
     })
