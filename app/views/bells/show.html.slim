@@ -39,15 +39,15 @@ javascript:
               div style="text-align: center;"
                 el-button type="danger" @click="blankShot" v-bind:disabled="blankShotButtonDisable" 空砲を鳴らす
               el-divider 鐘の情報を更新
-              el-form ref="config" :model="configFormData" label-position="top"
-                el-form-item label="どこで鐘を鳴らしていますか？"
+              el-form ref="config" :model="configFormData" :rules="configFormRules" label-position="top"
+                el-form-item label="どこで鐘を鳴らしていますか？" prop="place"
                   el-select v-model="configFormData.place"
                     - BloodborneUtils.place_list.each do |x,|
                       el-option label="#{x}" value="#{x}"
-                el-form-item label="設定した合言葉は？"
+                el-form-item label="設定した合言葉は？" prop="password"
                   el-input v-model="configFormData.password"
                 el-form-item label="備考"
-                  el-input type="textarea" v-model="configFormData.note"
+                  el-input type="textarea" v-model="configFormData.note" prop="note"
                 el-form-item
                   div style="text-align: center;"
                     el-button type="primary" @click="configChange" v-bind:disabled="configButtonDisable" 更新
