@@ -56,23 +56,6 @@ class BellsController < ApplicationController
     end
   end
 
-  # rake用
-  def cleanup
-    return unless request.remote_ip == '127.0.0.1'
-
-    items = []
-    Bell.expired.each do |bell|
-      if bell.delete_logical
-        ActionCable.server.broadcast("room_#{bell.id}", {deleted: true})
-        Twitter::CLIENT.destroy_status(bell.tweet_uri)
-        logger.info("cleanup #{bell}")
-        items << bell
-      end
-    end
-
-    render json: items
-  end
-
   private
 
   def bell_params

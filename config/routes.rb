@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   get '/', to:'bells#new'
-  get '/bells/cleanup', to: 'bells#cleanup'
+  get 'admin/cleanup', to: 'maintenance#cleanup'
 
   resources :bells do
     resources :messages
