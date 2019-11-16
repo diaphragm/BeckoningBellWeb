@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
       existing_users = @bell.messages.map{|m| m.user}.uniq
       session[@bell.id.to_s] = {"user" => BloodborneUtils.generate_hunter_name(existing_users)}
     end
-    p user = session[@bell.id.to_s]["user"]
+    user = session[@bell.id.to_s]["user"]
     new_message = {user: user}
 
     new_message[:text] = case sended_params[:type]
