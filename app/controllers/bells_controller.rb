@@ -1,13 +1,6 @@
 class BellsController < ApplicationController
-  TWITTER_CLIENT = Twitter::REST::Client.new do |config|
-    config.consumer_key        = Rails.application.credentials.twitter[:consumer_key]
-    config.consumer_secret     = Rails.application.credentials.twitter[:consumer_secret]
-    config.access_token        = Rails.application.credentials.twitter[:access_token]
-    config.access_token_secret = Rails.application.credentials.twitter[:access_secret]
-  end
-
   def show
-    @bell = Bell.availables.find(params[:id])
+    @bell = Bell.available.find(params[:id])
 
     if request.format == :json
       render json: @bell
@@ -15,7 +8,7 @@ class BellsController < ApplicationController
   end
 
   def new
-    @bells = Bell.availables.all
+    @bells = Bell.available.all
   end
 
   def create
@@ -27,13 +20,13 @@ class BellsController < ApplicationController
       redirect_to @bell
 
       tweet = %[#{@bell.place}で鐘鳴らしてます。#{url_for(@bell)}\n#{@bell.note}][0..139].chomp
-      res = TWITTER_CLIENT.update(tweet)
+      res = Twitter::CLIENT.update!(tweet)
       @bell.update(tweet_uri: res.uri)
     end
   end
 
   def update
-    @bell = Bell.availables.find(params[:id])
+    @bell = Bell.available.find(params[:id])
 
     session[@bell.id.to_s]
     BloodborneUtils.host_name
@@ -44,24 +37,40 @@ class BellsController < ApplicationController
       ActionCable.server.broadcast("room_#{@bell.id}", @bell)
       render json: @bell
 
-      tweet = %[[更新] #{@bell.place}で鐘鳴らしてます。#{url_for(@bell)}\n#{@bell.note}][0..139].chomp \
-            + @bell.tweet_uri.to_s
-      res = TWITTER_CLIENT.update(tweet)
-      @bell.update(tweet_uri: res.uri)
+      # tweet = %[[更新] #{@bell.place}で鐘鳴らしてます。#{url_for(@bell)}\n#{@bell.note}][0..139].chomp \
+      #       + @bell.tweet_uri.to_s
+      # res = Twitter::CLIENT.update!(tweet)
+      # @bell.update(tweet_uri: res.uri)
     end
   end
 
   def destroy
-    @bell = Bell.availables.find(params[:id])
+    @bell = Bell.available.find(params[:id])
     return unless session[@bell.id.to_s]["user"] == BloodborneUtils.host_name
 
     if @bell.delete_logical
       ActionCable.server.broadcast("room_#{@bell.id}", {deleted: true})
       render json: @bell
 
-      tweet = %[[終了] 募集は終了しました。] + @bell.tweet_uri.to_s
-      res = TWITTER_CLIENT.update(tweet)
+      Twitter::CLIENT.destroy_status(@bell.tweet_uri)
     end
+  end
+
+  # rake用
+  def cleanup
+    return unless request.remote_ip == '127.0.0.1'
+
+    items = []
+    Bell.expired.each do |bell|
+      if bell.delete_logical
+        ActionCable.server.broadcast("room_#{bell.id}", {deleted: true})
+        Twitter::CLIENT.destroy_status(bell.tweet_uri)
+        logger.info("cleanup #{bell}")
+        items << bell
+      end
+    end
+
+    render json: items
   end
 
   private

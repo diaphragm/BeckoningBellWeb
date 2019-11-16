@@ -80,7 +80,6 @@ module BloodborneUtils
     pose_kiri_man.png
     sick_panic_man.png
     tehepero3_business_ojisan.png
-    knock_man.png
     message_arigatou.png
     message_gomennasai.png
     message_omedetou.png
@@ -89,6 +88,7 @@ module BloodborneUtils
     message_tasukarimashita.png
     text_sankasya_bosyu.png
     text_syoshinsya_kangei.png
+    mark_shimekiri.png
     text_abunai_h.png
     spiritual_woman.png
     animal_pig_buta.png
