@@ -177,6 +177,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       infoPop: false,
       configOpen: false,
       configFormData: Object.assign({}, IV.bell),
+      configFormRules: {
+        place: [
+          { required: true, message: '鐘を鳴らしている場所を選択してください', trigger: 'chanege' }
+        ],
+        password: [
+          { required: true, message: '合言葉を入力してください', trigger: 'blur' },
+          { max: 20, message: '合言葉は20文字以内にしてください', trigger: 'blur' }
+        ],
+        note: [
+          { max: 200, message: '合言葉は200文字以内にしてください', trigger: 'blur' }
+        ]
+      },
       configButtonDisable: false,
       blankShotButtonDisable: false,
     },
@@ -196,7 +208,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             type: 'warning'
           })
           sendSystemMessage(`
-            ホストにより募集が終了しました。お疲れ様でした。
+            募集は終了しました。お疲れ様でした。
             <a href="/" class="el-link el-link--default is-underline">TOPに戻る</a>
           `)
         } else {
@@ -208,9 +220,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     },
     methods: {
       configChange: async function() {
-        this.configOpen = false
-        let placeId = IV.placeReverseData[this.configFormData.place]
-        await updateBell(placeId, this.configFormData.password, this.configFormData.note)
+        this.$refs['config'].validate(async (valid) => {
+          if (valid) {
+            this.configOpen = false
+            let placeId = IV.placeReverseData[this.configFormData.place]
+            await updateBell(placeId, this.configFormData.password, this.configFormData.note)
+          }
+        })
       },
       blankShot: async function() {
         this.$confirm('募集を終了してよろしいですか？', '共鳴破りの空砲',{
@@ -227,11 +243,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (IV.user) {
     sendSystemMessage(`
+      右上のボタンから募集を終了したり、鐘の情報を更新することができます。<br>
       募集は一定時間で自動的に終了しますが、他の協力者のためにも
       協力プレイを終える際には手動で募集を終了するようご協力をお願いします。
-    `)
-    sendSystemMessage(`
-      右上のボタンから募集を終了したり、鐘の情報を更新することができます。
+
     `)
   }
   sendSystemMessage(`

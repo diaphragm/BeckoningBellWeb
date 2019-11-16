@@ -58,3 +58,6 @@ gem 'slim-rails'
 
 gem 'activeadmin'
 gem 'devise'
+
+gem 'twitter'
+

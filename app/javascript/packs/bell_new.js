@@ -37,19 +37,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     el: '#app-new',
     data: {
       form: {},
+      rules: {
+        placeId: [
+          { required: true, message: '鐘を鳴らしている場所を選択してください', trigger: 'chanege'}
+        ],
+        password: [
+          { required: true, message: '合言葉を入力してください', trigger: 'blur'},
+          { max: 20, message: '合言葉は20文字以内にしてください', trigger: 'blur'}
+        ],
+        note: [
+        { max: 200, message: '合言葉は200文字以内にしてください', trigger: 'blur'}
+        ],
+      },
       disable: false
     },
     methods: {
       onSubmit: async function() {
-        this.disable = true
-        let res = await fetchBell(this.form)
-        window.res = res
-        if (res.ok) {
-          document.location.href = res.url
-        } else {
-          console.log('err')
-        }
-        this.disable = false
+        this.$refs['form'].validate(async (valid) => {
+          if (valid) {
+            this.disable = true
+            let res = await fetchBell(this.form)
+            window.res = res
+            if (res.ok) {
+              document.location.href = res.url
+            } else {
+              console.log('err')
+            }
+            this.disable = false
+          }
+        })
       },
       deleteBell: function(path) {
         this.$confirm('募集を終了してよろしいですか？', '共鳴破りの空砲', {

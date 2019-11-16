@@ -1,6 +1,6 @@
 class BellsController < ApplicationController
   def show
-    @bell = Bell.availables.find(params[:id])
+    @bell = Bell.available.find(params[:id])
 
     if request.format == :json
       render json: @bell
@@ -8,7 +8,7 @@ class BellsController < ApplicationController
   end
 
   def new
-    @bells = Bell.availables.all
+    @bells = Bell.available.all
   end
 
   def create
@@ -18,11 +18,15 @@ class BellsController < ApplicationController
       session[@bell.id.to_s] = {"user" => BloodborneUtils.host_name}
 
       redirect_to @bell
+
+      tweet = %[#{@bell.place}で鐘鳴らしてます。#{url_for(@bell)}\n#{@bell.note}][0..139].chomp
+      res = Twitter::CLIENT.update!(tweet)
+      @bell.update(tweet_uri: res.uri)
     end
   end
 
   def update
-    @bell = Bell.availables.find(params[:id])
+    @bell = Bell.available.find(params[:id])
 
     session[@bell.id.to_s]
     BloodborneUtils.host_name
@@ -32,16 +36,23 @@ class BellsController < ApplicationController
     if @bell.update(bell_params)
       ActionCable.server.broadcast("room_#{@bell.id}", @bell)
       render json: @bell
+
+      # tweet = %[[更新] #{@bell.place}で鐘鳴らしてます。#{url_for(@bell)}\n#{@bell.note}][0..139].chomp \
+      #       + @bell.tweet_uri.to_s
+      # res = Twitter::CLIENT.update!(tweet)
+      # @bell.update(tweet_uri: res.uri)
     end
   end
 
   def destroy
-    @bell = Bell.availables.find(params[:id])
+    @bell = Bell.available.find(params[:id])
     return unless session[@bell.id.to_s]["user"] == BloodborneUtils.host_name
 
     if @bell.delete_logical
       ActionCable.server.broadcast("room_#{@bell.id}", {deleted: true})
       render json: @bell
+
+      Twitter::CLIENT.destroy_status(@bell.tweet_uri)
     end
   end
 

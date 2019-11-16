@@ -10,14 +10,16 @@ javascript:
       h1 狩人呼びの鐘Web
     el-main
       h2 鐘を鳴らす
-      el-form ref="form" :model="form" label-position="top"
-        el-form-item label="どこで鐘を鳴らしていますか？"
+      el-form ref="form" :model="form" :rules="rules" label-position="top"
+        el-form-item label="どこで鐘を鳴らしていますか？" prop="placeId"
           el-select v-model="form.placeId"
             - BloodborneUtils.place_list.each do |x, i|
               el-option label="#{x}" value="#{i}"
-        el-form-item label="設定した合言葉は？"
+        el-form-item label="設定した合言葉は？" prop="password"
+          .hint 合言葉を設定しないと、レベル差がある他のプレイヤーとのマルチプレイができません。
           el-input v-model="form.password"
-        el-form-item label="備考"
+        el-form-item label="備考" prop="note"
+          .hint 周回数、プレイ方針、契約カレル、聖杯ダンジョンの内容などを書くと親切かもしれません。
           el-input type="textarea" v-model="form.note"
         el-form-item
           el-button type="primary" @click="onSubmit" v-bind:disabled="disable"
