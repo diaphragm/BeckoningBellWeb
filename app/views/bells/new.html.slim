@@ -4,60 +4,64 @@ javascript:
   window.IV = {}
   IV.bellUrl = "#{raw bells_path()}"
 
-#app-new v-cloak=''
-  el-container
-    el-header v-bind:height="'70'"
-      .title 狩人呼びの鐘Web
-      .subtitle The Old Hunters
-    el-main
-      img.separator src="#{image_path('b_ornament_134_0M.png')}"
-      .site-info
-        p Bloodborneの協力プレイ募集サイトです。
-        p
+#main
+  #app-new v-cloak=''
+    el-container
+      el-header v-bind:height="'70'"
+        .title 狩人呼びの鐘Web
+        .subtitle The Old Hunters
+      el-main
+        img.separator src="#{image_path('b_ornament_134_0M.png')}"
+        .site-info
+          p Bloodborneの協力プレイ募集サイトです。
+          p
+            a href="https://twitter.com/BloodborneVoyyy" Twitter
+            | での募集機能、定型文やスタンプが使えるチャット機能があります。
+          p
+            | Twitterで募集だけしたい場合は、
+            a href="https://docs.google.com/forms/d/e/1FAIpQLSe95aWwVnBDR0PuQzs9EJJMXcPhEBtXElFff-ixsMzEHD4Aqg/viewform" Googleフォーム
+            | の使用もご検討ください。
+
+        img.separator src="#{image_path('b_ornament_134_0M.png')}"
+
+        h2 鐘を鳴らす
+        el-form ref="form" :model="form" :rules="rules" label-position="top"
+          el-form-item label="どこで鐘を鳴らしていますか？" prop="placeId"
+            el-select v-model="form.placeId"
+              - BloodborneUtils.place_list.each do |x, i|
+                el-option label="#{x}" value="#{i}"
+          el-form-item label="設定した合言葉は？" prop="password"
+            .hint 合言葉を設定しないと、レベル差がある他のプレイヤーとのマルチプレイができません。
+            el-input v-model="form.password"
+          el-form-item label="備考" prop="note"
+            .hint 周回数、プレイ方針、契約カレル、聖杯ダンジョンの内容などを書くと親切かもしれません。
+            el-input type="textarea" v-model="form.note"
+          el-form-item
+            el-button type="primary" @click="onSubmit" v-bind:disabled="disable"
+              | 鐘を鳴らす
+
+        img.separator src="#{image_path('b_ornament_134_0M.png')}"
+
+        h2 現在募集中の鐘
+        - @bells.reverse.each do |bell|
+          .now-bell
+            .now-bell-place #{bell.place}
+            .now-bell-link
+              - if session.dig(bell.id, 'user') == BloodborneUtils.host_name
+                el-link @click="deleteBell('#{bell_path(bell)}')" icon="el-icon-error" 空砲する
+              el-link href="#{bell_path(bell)}" icon="el-icon-message-solid" 共鳴する
+            .now-bell-note
+              pre #{bell.note}
+            .now-bell-time
+              | (#{time_ago_in_words(bell.updated_at)}前)
+        - if @bells.empty?
+          .no-bell
+          | 募集中の鐘はありません。
           a href="https://twitter.com/BloodborneVoyyy" Twitter
-          | での募集機能、定型文やスタンプが使えるチャット機能があります。
-        p
-          | Twitterで募集だけしたい場合は、
-          a href="https://docs.google.com/forms/d/e/1FAIpQLSe95aWwVnBDR0PuQzs9EJJMXcPhEBtXElFff-ixsMzEHD4Aqg/viewform" Googleフォーム
-          | もご検討ください。
+          | もご確認ください。
 
-      img.separator src="#{image_path('b_ornament_134_0M.png')}"
-
-      h2 鐘を鳴らす
-      el-form ref="form" :model="form" :rules="rules" label-position="top"
-        el-form-item label="どこで鐘を鳴らしていますか？" prop="placeId"
-          el-select v-model="form.placeId"
-            - BloodborneUtils.place_list.each do |x, i|
-              el-option label="#{x}" value="#{i}"
-        el-form-item label="設定した合言葉は？" prop="password"
-          .hint 合言葉を設定しないと、レベル差がある他のプレイヤーとのマルチプレイができません。
-          el-input v-model="form.password"
-        el-form-item label="備考" prop="note"
-          .hint 周回数、プレイ方針、契約カレル、聖杯ダンジョンの内容などを書くと親切かもしれません。
-          el-input type="textarea" v-model="form.note"
-        el-form-item
-          el-button type="primary" @click="onSubmit" v-bind:disabled="disable"
-            | 鐘を鳴らす
-
-      img.separator src="#{image_path('b_ornament_134_0M.png')}"
-
-      h2 現在募集中の鐘
-      - @bells.reverse.each do |bell|
-        .now-bell
-          .now-bell-place #{bell.place}
-          .now-bell-link
-            - if session.dig(bell.id, 'user') == BloodborneUtils.host_name
-              el-link @click="deleteBell('#{bell_path(bell)}')" icon="el-icon-error" 空砲する
-            el-link href="#{bell_path(bell)}" icon="el-icon-message-solid" 共鳴する
-          .now-bell-note
-            pre #{bell.note}
-          .now-bell-time
-            | (#{time_ago_in_words(bell.updated_at)}前)
-      - if @bells.empty?
-        .no-bell
-        | 募集中の鐘はありません。
-        a href="https://twitter.com/BloodborneVoyyy" Twitter
-        | もご確認ください。
+  #twitter-embed
+    <a class="twitter-timeline" data-height="600" data-theme="dark" href="https://twitter.com/BloodborneVoyyy?ref_src=twsrc%5Etfw">Tweets by BloodborneVoyyy</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 #copyright
   | © 2019 diaphragm

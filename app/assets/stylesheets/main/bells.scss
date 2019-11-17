@@ -185,12 +185,28 @@ body {
   background-color: $--color-white;
   color: $--color-text-primary;
 }
-// new
-#app-new {
-  margin: 0 auto;
-  max-width: 640px;
 
-  background-color: $--background-color-base;
+// new
+
+#main {
+  display: flex;
+  justify-content: center;
+}
+// FHDの半分ぐらいまでは横並び
+@media screen and (max-width: 900px) {
+  #main {
+    flex-direction: column;
+  }
+  #app-new {
+    margin: 0 auto;
+  }
+  #twitter-embed {
+    max-width: 640px;
+    margin: 0 auto !important;
+    padding: 0;
+    width: 100%;
+    overflow:  auto;
+  }
 }
 
 #app-new .title, #app-new .subtitle {
@@ -203,9 +219,11 @@ body {
 }
 
 #app-new .el-container {
+  max-width: 640px;
   margin-top: 1em;
   margin-bottom: 1em;
   border: 3px double $--border-color-base;
+  background-color: $--background-color-base;
 }
 
 .site-info {
@@ -256,10 +274,13 @@ body {
 }
 
 
-a:link { color: gray;}
-a:visited { color: gray;}
+a:link { color: #b0b0b0;}
+a:visited { color: #b0b0b0;}
 a:hover, a:active { color: darkred}
 
+#twitter-embed {
+  margin: 1em;
+}
 
 #copyright {
   font-size: small;
