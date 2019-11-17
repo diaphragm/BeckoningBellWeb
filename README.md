@@ -1,24 +1,35 @@
-# README
+# 狩人呼びの鐘Web The Old Hunters
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+https://bloodborne.live-on.net
 
-Things you may want to cover:
+## これなに
 
-* Ruby version
+名作PS4ゲームBloodborneの協力プレイを募集するためのサービス。
+ついでに簡易チャット付き。
 
-* System dependencies
+## 使用ライブラリ/環境
 
-* Configuration
+- Ruby 2.6
+- Rails 6
+- Vue.js
+- Element UI
+- AWS
+  - EC2
+  - RDS
+  - VPC
+  - Lambda
 
-* Database creation
+## TODO
 
-* Database initialization
+- [ ] ドキュメントの整備
+- [ ] リファクタリング
+- [ ] httpのリダイレクト
+- [ ] asset_sync使用して静的ファイルをS3に置く
+- [ ] 一般公開
+- [ ] 独自ドメイン取得
+- [ ] AdSense貼る
+- [ ] EC2+RDSの構成をS3+API Gateway+Lambda+RDSにしたい
 
-* How to run the test suite
+## 使用した素材
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+[Frame Design](http://frames-design.com/)
