@@ -13,6 +13,7 @@ https://bloodborne.live-on.net
 - Rails 6
 - Vue.js
 - Element UI
+- Nginx
 - AWS
   - EC2
   - RDS
