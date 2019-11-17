@@ -4,8 +4,8 @@ ruby:
   packed_stamplist = BloodborneUtils.stamp_list.map.with_object({}){|(k,a),h|
     h[k] = a.map{|x| {id: x[:id], text: image_path("stamps/#{x[:text]}") } }
   }
-= javascript_pack_tag 'bell_show'
-= stylesheet_pack_tag 'bell_show'
+
+= javascript_pack_tag 'bell_show.js'
 javascript:
   window.IV = {} // Instance Variable
   IV.chatTextList = #{raw BloodborneUtils.message_list.to_json}
