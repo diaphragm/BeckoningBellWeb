@@ -1,11 +1,15 @@
 - user = session.dig(@bell.id, 'user')
 - bell = @bell
+ruby:
+  packed_stamplist = BloodborneUtils.stamp_list.map.with_object({}){|(k,a),h|
+    h[k] = a.map{|x| {id: x[:id], text: image_path("stamps/#{x[:text]}") } }
+  }
 = javascript_pack_tag 'bell_show'
 = stylesheet_pack_tag 'bell_show'
 javascript:
   window.IV = {} // Instance Variable
   IV.chatTextList = #{raw BloodborneUtils.message_list.to_json}
-  IV.chatStampList = #{raw BloodborneUtils.stamp_list.map{|h| {id: h[:id], text: image_path("stamps/#{h[:text]}")}}.to_json}
+  IV.chatStampList = #{raw packed_stamplist.to_json}
   IV.placeReverseData = #{raw BloodborneUtils.place_list.each.with_object({}){|(x,i),h| h[x] = i}.to_json}
   IV.user = "#{raw user}"
   IV.bell = #{raw bell.to_json}
@@ -64,7 +68,8 @@ javascript:
           chat-select-text v-bind:group='"#{key}"', v-bind:key="#{i}"
           el-button.chat-input-type slot="reference"
             | #{key}
-      el-popover trigger="click"
-        chat-select-stamp
-        el-button.chat-input-type slot="reference"
-          | スタンプ
+      - BloodborneUtils.stamp_list.keys.each.with_index do |key, i|
+        el-popover trigger="click"
+          chat-select-stamp v-bind:group='"#{key}"', v-bind:key="#{i}"
+          el-button.chat-input-type slot="reference"
+            | #{key}

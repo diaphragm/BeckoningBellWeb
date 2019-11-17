@@ -84,8 +84,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   })
 
   const ChatSelectStamp = ({
+    props: ['group'],
     data: function () {
-      return { items: IV.chatStampList }
+      return { items: IV.chatStampList[this.group] }
     },
     methods: {
       onclick: async function (id) {

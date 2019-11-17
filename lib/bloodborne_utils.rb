@@ -1,6 +1,8 @@
 module BloodborneUtils
   module_function
 
+  HOST_NAME = "狩りの主"
+
   NAME_FIRST = %w[烏羽 赤ローブ 血族狩り 聖堂街 連盟 マダラス 血 聖剣 流浪 ヤーナム 漁村 トゥメル 聖杯 星 白痴 聖職者 星界 悪夢 夢 最初 死体 旧主 ローラン 月 罹患者 車椅子 獣狩り 上位者狩り 教会 ヘムウィック 瞳 廃城 カイン メルゴー リボン 彼氏持ち 全裸 右回り 左回り 狂人 上位者 古い上位者 3本目 ノコギリ 火薬 烏 雷光 剣 輝く剣 車輪 星の瞳 撃鉄 葦名 エアプ]
   NAME_SECOND = %w[狩人 古狩人 男 女 少女 少年 老婆 老人 人形 助言者 女医 異邦人 蜘蛛男 女王 学長 住人 娘 蜘蛛 教区長 獣 影 魔物 女王殺し 守り人 長 番人 番犬 末裔 異常者 銀獣 黒獣 巨人 豚 大男 人さらい 魔女 狂気者 学徒 苗床 悪霊 召使い 落とし子 脳喰らい 貞子 変態 栗本 地底人]
 
@@ -73,33 +75,35 @@ module BloodborneUtils
     ]
   }
 
-  STAMP_LIST = %w[
-    banzai_obaasan.png
-    pose_ganbarou_man.png
-    ok_woman.png
-    hand_good.png
-    hakusyu.png
-    byebye_girl.png
-    pose_inoru_woman.png
-    pose_kiri_man.png
-    sick_panic_man.png
-    tehepero3_business_ojisan.png
-    message_arigatou.png
-    message_gomennasai.png
-    message_omedetou.png
-    message_otsukaresama.png
-    message_yoroshiku.png
-    message_tasukarimashita.png
-    text_sankasya_bosyu.png
-    text_syoshinsya_kangei.png
-    mark_shimekiri.png
-    text_abunai_h.png
-    spiritual_woman.png
-    animal_pig_buta.png
-    bug_seakagokegumo.png
-    character_cthulhu_yog_sothoth.png
-    character_cthulhu_shoggoth.png
-  ]
+  STAMP_LIST = {
+    "スタンプ" => %w[
+      banzai_obaasan.png
+      pose_ganbarou_man.png
+      ok_woman.png
+      hand_good.png
+      hakusyu.png
+      byebye_girl.png
+      pose_inoru_woman.png
+      pose_kiri_man.png
+      sick_panic_man.png
+      tehepero3_business_ojisan.png
+      message_arigatou.png
+      message_gomennasai.png
+      message_omedetou.png
+      message_otsukaresama.png
+      message_yoroshiku.png
+      message_tasukarimashita.png
+      text_sankasya_bosyu.png
+      text_syoshinsya_kangei.png
+      mark_shimekiri.png
+      text_abunai_h.png
+      spiritual_woman.png
+      animal_pig_buta.png
+      bug_seakagokegumo.png
+      character_cthulhu_yog_sothoth.png
+      character_cthulhu_shoggoth.png
+    ]
+  }
 
   def generate_hunter_name(exclude = [])
     100.times do
@@ -134,15 +138,24 @@ module BloodborneUtils
   end
 
   def stamp_list
-    STAMP_LIST.map.with_index{|x, i| {id: i, text: x}}
+    id = 0
+    list = {}
+    STAMP_LIST.each do |k, a|
+      list[k] = []
+      a.each do |x|
+        list[k].push({id: id, text: x})
+        id += 1
+      end
+    end
+    list
   end
 
   def find_stamp(index)
-    STAMP_LIST[index.to_i]
+    STAMP_LIST.values.flatten[index.to_i]
   end
 
   def host_name
-    "狩りの主"
+    HOST_NAME
   end
 
 end
