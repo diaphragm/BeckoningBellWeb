@@ -2,6 +2,23 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+$--color-primary: gold;
+$--color-text-primary: #ffffee;
+$--color-text-regular: lightgoldenrodyellow;
+$--color-white: #303030;
+$--color-black: #FFFFFF;
+$--background-color-base: #404040;
+
+$--border-color-base: #505050;
+$--border-color-light: #606060;
+$--border-color-lighter: #707070;
+$--border-color-extra-light: #808080;
+
+$--font-path: 'element-ui/lib/theme-chalk/fonts';
+
+@import 'element-ui/packages/theme-chalk/src';
+
+
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif+JP&display=swap');
 
 * {
@@ -20,16 +37,30 @@ html, body, #app-show, #app-container {
   height: 100%;
 }
 
+img.separator {
+  width: 100%;
+  filter: invert(50%);
+}
+
 #app-container {
   width: 100%;
 }
 
 #app-header {
-  background-color: lightgray;
-  line-height: 60px;
+  background-color: $--background-color-base;
 }
-.header-row {
-  vertical-align: middle;
+
+.el-header el-row, .el-header .el-col {
+  height: 60px;
+}
+.el-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#app-show .subtitle {
+  font-size: x-small;
 }
 
 #app-main {
@@ -104,14 +135,14 @@ button.chat-input-type {
 }
 .message-text {
   display: inline-block;
-  background-color: lightgray;
+  background-color: $--background-color-base;
   border-radius: 20px;
   padding: 10px;
   vertical-align: bottom;
 }
 .message-time {
   vertical-align: bottom;
-  color: gray;
+  color: slategray;
   font-size: small;
 }
 
@@ -123,7 +154,7 @@ button.chat-input-type {
   margin-right: 8px;
 }
 .message-own .message-text {
-  background-color: lightgreen;
+  background-color: #603030;
 }
 
 
@@ -150,20 +181,44 @@ button.chat-input-type {
   max-width: fit-content;
 }
 
-
+body {
+  background-color: $--color-white;
+  color: $--color-text-primary;
+}
 // new
 #app-new {
   margin: 0 auto;
   max-width: 640px;
+
+  background-color: $--background-color-base;
 }
 
-#app-new h1 {
+#app-new .title, #app-new .subtitle {
   text-align: center;
+  color: $--color-text-regular;
+}
+#app-new .title {
+  margin-top: 10px;
+  font-size: xx-large;
+}
+
+#app-new .el-container {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border: 3px double $--border-color-base;
+}
+
+.site-info {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.site-info p {
+  margin: 3px;
 }
 
 .now-bell {
   padding: 10px;
-  border-top: lightgrey solid 1px;
+  border-top: $--border-color-base solid 1px;
 }
 .now-bell div {
 }
@@ -191,16 +246,29 @@ button.chat-input-type {
   margin-left: auto;
 
   font-size: x-small;
-  color: gray;
+  color: lightslategray;
 }
-// .bell-header .now-bell-note, .bell-header .now-bell-place{
-//   color: gray;
-//   margin-left: 20px;
-// }
 
 .el-form-item .hint {
   margin: 0;
   line-height: initial;
   font-size: small;
-  color: #606266;
+}
+
+
+a:link { color: gray;}
+a:visited { color: gray;}
+a:hover, a:active { color: darkred}
+
+
+#copyright {
+  font-size: small;
+  margin: 1em;
+  float: right;
+  color: #808080;
+}
+#copyright img {
+  height: 1em;
+  margin-left: 0.5em;
+  filter: invert(50%);
 }

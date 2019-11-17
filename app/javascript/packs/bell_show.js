@@ -4,7 +4,7 @@ import Vue from 'vue/dist/vue.esm'
 import { csrfToken } from '@rails/ujs'
 
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -237,16 +237,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             this.configOpen = false
             await destroyBell()
         })
+      },
+      moveTop: function() {
+        this.$confirm('募集中の鐘一覧からまた戻ることもできます。', 'トップページに移動しますか？', {
+          confirmButtonText: 'はい',
+          cancelButtonText: 'いいえ',
+        }).then( () => {
+          location.href = '/'
+        })
       }
     }
   })
 
-  if (IV.user) {
+  if (IV.user == "狩りの主") {
     sendSystemMessage(`
       右上のボタンから募集を終了したり、鐘の情報を更新することができます。<br>
-      募集は一定時間で自動的に終了しますが、他の協力者のためにも
-      協力プレイを終える際には手動で募集を終了するようご協力をお願いします。
-
+      募集は一定時間で自動的に終了しますが、他の協力者のためにも協力プレイを終える際には手動で募集を終了するようご協力をお願いします。
     `)
   }
   sendSystemMessage(`

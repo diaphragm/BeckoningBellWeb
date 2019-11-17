@@ -2,7 +2,7 @@ import Vue from 'vue/dist/vue.esm'
 import { csrfToken } from '@rails/ujs'
 
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import 'element-ui/lib/theme-chalk/index.css'
 import lang from 'element-ui/lib/locale/lang/ja'
 import locale from 'element-ui/lib/locale'
 locale.use(lang)

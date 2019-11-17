@@ -16,7 +16,7 @@ javascript:
   el-container#app-container
     el-header#app-header
       el-row.header-row
-        el-col v-bind:span=4 style="text-align: left;"
+        el-col v-bind:span=2 style="text-align: left;"
           el-popover trigger="click" v-model="infoPop"
             strong
               | {{ iv.bell.place }}
@@ -29,9 +29,11 @@ javascript:
             pre
               | {{ iv.bell.note }}
             el-button slot="reference" icon="el-icon-message-solid" circle=""
-        el-col v-bind:span=16 style="text-align: center;"
-          | 狩人呼びの鐘Web
-        el-col v-bind:span=4 style="text-align: right;"
+        el-col v-bind:span=20 style="text-align: center;"
+          .title-block @click="moveTop"
+            .titel 狩人呼びの鐘Web
+            .subtitle The Old Hunters
+        el-col v-bind:span=2 style="text-align: right;"
           - if user == BloodborneUtils.host_name
             el-button @click="configOpen = true" icon="el-icon-s-tools"
             el-dialog.config-dialog title="設定" :visible.sync="configOpen"

@@ -6,9 +6,23 @@ javascript:
 
 #app-new v-cloak=''
   el-container
-    el-header
-      h1 狩人呼びの鐘Web
+    el-header v-bind:height="'70'"
+      .title 狩人呼びの鐘Web
+      .subtitle The Old Hunters
     el-main
+      img.separator src="#{image_path('b_ornament_134_0M.png')}"
+      .site-info
+        p Bloodborneの協力プレイ募集サイトです。
+        p
+          a href="https://twitter.com/BloodborneVoyyy" Twitter
+          | での募集機能、定型文やスタンプが使えるチャット機能があります。
+        p
+          | Twitterで募集だけしたい場合は、
+          a href="https://docs.google.com/forms/d/e/1FAIpQLSe95aWwVnBDR0PuQzs9EJJMXcPhEBtXElFff-ixsMzEHD4Aqg/viewform" Googleフォーム
+          | もご検討ください。
+
+      img.separator src="#{image_path('b_ornament_134_0M.png')}"
+
       h2 鐘を鳴らす
       el-form ref="form" :model="form" :rules="rules" label-position="top"
         el-form-item label="どこで鐘を鳴らしていますか？" prop="placeId"
@@ -25,11 +39,8 @@ javascript:
           el-button type="primary" @click="onSubmit" v-bind:disabled="disable"
             | 鐘を鳴らす
 
-      | Twitterに通知だけしたい場合は
-      a href="https://docs.google.com/forms/d/e/1FAIpQLSe95aWwVnBDR0PuQzs9EJJMXcPhEBtXElFff-ixsMzEHD4Aqg/viewform" こちら
-      | を利用してください。
+      img.separator src="#{image_path('b_ornament_134_0M.png')}"
 
-      el-divider
       h2 現在募集中の鐘
       - @bells.reverse.each do |bell|
         .now-bell
@@ -42,3 +53,13 @@ javascript:
             pre #{bell.note}
           .now-bell-time
             | (#{time_ago_in_words(bell.updated_at)}前)
+      - if @bells.empty?
+        .no-bell
+        | 募集中の鐘はありません。
+        a href="https://twitter.com/BloodborneVoyyy" Twitter
+        | もご確認ください。
+
+#copyright
+  | © 2019 diaphragm
+  a href="https://github.com/diaphragm"
+    img src="#{image_path('GitHub-Mark-32px.png')}"
