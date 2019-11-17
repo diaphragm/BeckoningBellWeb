@@ -1,6 +1,6 @@
 # 狩人呼びの鐘Web The Old Hunters
 
-https://bloodborne.live-on.net
+https://bloodborne.9kv.org/
 
 ## これなに
 
@@ -24,10 +24,11 @@ https://bloodborne.live-on.net
 
 - [ ] ドキュメントの整備
 - [ ] リファクタリング
-- [ ] httpのリダイレクト
+- [x] httpのリダイレクト
+  - ALBの設定だけだった
 - [ ] asset_sync使用して静的ファイルをS3に置く
 - [ ] 一般公開
-- [ ] 独自ドメイン取得
+- [x] 独自ドメイン取得
 - [ ] AdSense貼る
 - [ ] EC2+RDSの構成をS3+API Gateway+Lambda+RDSにしたい
 
