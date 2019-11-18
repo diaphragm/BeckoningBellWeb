@@ -14,7 +14,7 @@ $--border-color-light: #555555;
 $--border-color-lighter: #606060;
 $--border-color-extra-light: #656565;
 
-$--font-path: 'element-ui/lib/theme-chalk/fonts';
+$--font-path: '/fonts';
 
 @import 'element-ui/packages/theme-chalk/src';
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif+JP&display=swap');
