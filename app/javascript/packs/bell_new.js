@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           { max: 20, message: '合言葉は20文字以内にしてください', trigger: 'blur'}
         ],
         note: [
-        { max: 200, message: '合言葉は200文字以内にしてください', trigger: 'blur'}
+        { max: 200, message: '備考は200文字以内にしてください', trigger: 'blur'}
         ],
       },
       disable: false
