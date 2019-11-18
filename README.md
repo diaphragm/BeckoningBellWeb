@@ -11,22 +11,25 @@ https://bloodborne.9kv.org/
 
 - Ruby 2.6
 - Rails 6
+- AssetSync
 - Vue.js
 - Element UI
 - Nginx
 - AWS
   - EC2
   - RDS
+  - S3
   - VPC
   - Lambda
 
 ## TODO
 
 - [ ] ドキュメントの整備
+- [ ] テストの整備
 - [ ] リファクタリング
 - [x] httpのリダイレクト
   - ALBの設定だけだった
-- [ ] asset_sync使用して静的ファイルをS3に置く
+- [x] asset_sync使用して静的ファイルをS3に置く
 - [ ] 一般公開
 - [x] 独自ドメイン取得
 - [ ] AdSense貼る
