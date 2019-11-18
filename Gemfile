@@ -61,3 +61,5 @@ gem 'devise'
 
 gem 'twitter'
 
+gem "asset_sync"
+gem "fog-aws"

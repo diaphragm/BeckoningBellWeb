@@ -62,4 +62,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.web_console.whitelisted_ips = '0.0.0.0/0'
+
+  config.action_controller.asset_host = "//beckoning-bell-web.s3-ap-northeast-1.amazonaws.com"
+  config.assets.debug = false
 end
