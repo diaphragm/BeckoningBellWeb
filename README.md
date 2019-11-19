@@ -37,4 +37,10 @@ https://bloodborne.9kv.org/
 
 ## 使用した素材
 
+### スタンプ
+
+[いらすとや](https://www.irasutoya.com/)
+
+### 罫線
+
 [Frame Design](http://frames-design.com/)
