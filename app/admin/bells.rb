@@ -14,7 +14,7 @@ ActiveAdmin.register Bell do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  permit_params :place, :password, :note
+  permit_params :place, :password, :note, :tweet_uri, :deleted_at
 
   index do
     selectable_column
