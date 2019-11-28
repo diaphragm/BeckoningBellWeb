@@ -253,11 +253,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   sendSystemMessage(`
 <div style="width:100vw;max-width:100%;min-width:250px;">
 <ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
+     style="display:block"
      data-ad-format="fluid"
+     data-ad-layout-key="-fb+5u+4n-dg+7q"
      data-ad-client="ca-pub-8284783845808742"
-     data-ad-slot="7568318850"></ins>
+     data-ad-slot="1588491605"></ins>
 </div>
   `)
   setTimeout(() => {
