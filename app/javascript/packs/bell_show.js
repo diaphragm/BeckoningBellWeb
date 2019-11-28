@@ -251,17 +251,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
   sendSystemMessage(`
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<div style="width:100vw;max-width:100%;min-width:250px;">
 <ins class="adsbygoogle"
-     style="display:block"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
      data-ad-format="fluid"
-     data-ad-layout-key="-fb+5u+4n-dg+7q"
      data-ad-client="ca-pub-8284783845808742"
-     data-ad-slot="1588491605"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+     data-ad-slot="7568318850"></ins>
+</div>
   `)
+  setTimeout(() => {
+    (adsbygoogle = window.adsbygoogle || []).push({})
+  }, 500)
 
   if (IV.user == "狩りの主") {
     sendSystemMessage(`
