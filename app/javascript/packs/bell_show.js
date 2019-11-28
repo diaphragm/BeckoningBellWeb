@@ -249,6 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   })
 
+
   if (IV.user == "狩りの主") {
     sendSystemMessage(`
       右上のボタンから募集を終了したり、鐘の情報を更新することができます。<br>

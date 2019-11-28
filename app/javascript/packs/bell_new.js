@@ -51,6 +51,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       },
       disable: false
     },
+    mounted: function() {
+      document.querySelectorAll(".adsbygoogle").forEach(()=>{(adsbygoogle = window.adsbygoogle || []).push({})})
+    },
     methods: {
       onSubmit: async function() {
         this.$refs['form'].validate(async (valid) => {
