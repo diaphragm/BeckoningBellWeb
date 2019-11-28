@@ -250,20 +250,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   })
 
 
-  sendSystemMessage(`
-<div style="width:100vw;max-width:100%;min-width:250px;">
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="fluid"
-     data-ad-layout-key="-fb+5u+4n-dg+7q"
-     data-ad-client="ca-pub-8284783845808742"
-     data-ad-slot="1588491605"></ins>
-</div>
-  `)
-  setTimeout(() => {
-    (adsbygoogle = window.adsbygoogle || []).push({})
-  }, 500)
-
   if (IV.user == "狩りの主") {
     sendSystemMessage(`
       右上のボタンから募集を終了したり、鐘の情報を更新することができます。<br>
