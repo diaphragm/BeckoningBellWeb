@@ -14,6 +14,7 @@ ActiveAdmin.register Message do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+  permit_params :text, :user, :bell_id
 
   Message.column_names.each do |col|
     filter col
