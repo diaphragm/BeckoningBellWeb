@@ -30,9 +30,9 @@ https://bloodborne.9kv.org/
 - [x] httpのリダイレクト
   - ALBの設定だけだった
 - [x] asset_sync使用して静的ファイルをS3に置く
-- [ ] 一般公開
+- [x] 一般公開
 - [x] 独自ドメイン取得
-- [ ] AdSense貼る
+- [x] AdSense貼る
 - [ ] EC2+RDSの構成をS3+API Gateway+Lambda+RDSにしたい
 
 ## 使用した素材
