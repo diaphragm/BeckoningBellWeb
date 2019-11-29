@@ -34,7 +34,7 @@ javascript:
             .hint 合言葉を設定しないと、レベル差がある他のプレイヤーとのマルチプレイができません。
             el-input v-model="form.password"
           el-form-item label="備考" prop="note"
-            .hint 周回数、プレイ方針、契約カレル、聖杯ダンジョンの内容などを書くと親切かもしれません。
+            .hint 周回数、レベル、プレイ方針、契約カレル、聖杯ダンジョンの内容などを書くと親切かもしれません。
             el-input type="textarea" v-model="form.note"
           el-form-item
             el-button type="primary" @click="onSubmit" v-bind:disabled="disable"
