@@ -10,7 +10,7 @@ javascript:
   window.IV = {} // Instance Variable
   IV.chatTextList = #{raw BloodborneUtils.message_list.to_json}
   IV.chatStampList = #{raw packed_stamplist.to_json}
-  IV.placeReverseData = #{raw BloodborneUtils.place_list.each.with_object({}){|(x,i),h| h[x] = i}.to_json}
+  IV.placeReverseData = #{raw BloodborneUtils.place_reverse_list.to_json}
   IV.user = "#{raw user}"
   IV.bell = #{raw bell.to_json}
   IV.bellUrl = "#{raw bell_path(@bell)}"
@@ -48,8 +48,11 @@ javascript:
               el-form ref="config" :model="configFormData" :rules="configFormRules" label-position="top"
                 el-form-item label="どこで鐘を鳴らしていますか？" prop="place"
                   el-select v-model="configFormData.place"
-                    - BloodborneUtils.place_list.each do |x,|
-                      el-option label="#{x}" value="#{x}"
+                    - BloodborneUtils.place_list.each do |k, a|
+                      el-option-group label="#{k}"
+                      - a.each do |h|
+                        / configFormData.placeの値で既選択状態になるのでvalueはidじゃなくplaceにする。
+                        el-option label="#{h[:place]}" value="#{h[:place]}"
                 el-form-item label="設定した合言葉は？" prop="password"
                   el-input v-model="configFormData.password"
                 el-form-item label="備考"

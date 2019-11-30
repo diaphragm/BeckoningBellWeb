@@ -28,8 +28,10 @@ javascript:
         el-form ref="form" :model="form" :rules="rules" label-position="top"
           el-form-item label="どこで鐘を鳴らしていますか？" prop="placeId"
             el-select v-model="form.placeId"
-              - BloodborneUtils.place_list.each do |x, i|
-                el-option label="#{x}" value="#{i}"
+              - BloodborneUtils.place_list.each do |k, a|
+                el-option-group label="#{k}"
+                - a.each do |h|
+                  el-option label="#{h[:place]}" value="#{h[:id]}"
           el-form-item label="設定した合言葉は？" prop="password"
             .hint 合言葉を設定しないと、レベル差がある他のプレイヤーとのマルチプレイができません。
             el-input v-model="form.password"

@@ -37,10 +37,10 @@ class BellsController < ApplicationController
       ActionCable.server.broadcast("room_#{@bell.id}", @bell)
       render json: @bell
 
-      # tweet = %[[更新] #{@bell.place}で鐘鳴らしてます。#{url_for(@bell)}\n#{@bell.note}][0..139].chomp \
-      #       + @bell.tweet_uri.to_s
-      # res = Twitter::CLIENT.update!(tweet)
-      # @bell.update(tweet_uri: res.uri)
+      tweet = %[【更新】 #{@bell.place}で鐘鳴らしてます。#{url_for(@bell)}\n#{@bell.note}][0..139].chomp \
+            + ' ' + @bell.tweet_uri.to_s
+      res = Twitter::CLIENT.update!(tweet, in_reply_to_status_id: @bell.tweet_uri[/\d+$/])
+      @bell.update(tweet_uri: res.uri)
     end
   end
 
@@ -50,7 +50,11 @@ class BellsController < ApplicationController
 
     if @bell.delete_logical
       ActionCable.server.broadcast("room_#{@bell.id}", {deleted: true})
-      Twitter::CLIENT.destroy_status(@bell.tweet_uri)
+
+      # Twitter::CLIENT.destroy_status(@bell.tweet_uri)
+      tweet = %[【終了】募集は終了しました。 ] + @bell.tweet_uri.to_s
+      Twitter::CLIENT.update!(tweet, in_reply_to_status_id: @bell.tweet_uri[/\d+$/])
+
       render json: @bell
     end
   end

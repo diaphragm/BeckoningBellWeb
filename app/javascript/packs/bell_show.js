@@ -222,9 +222,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       configChange: async function() {
         this.$refs['config'].validate(async (valid) => {
           if (valid) {
-            this.configOpen = false
-            let placeId = IV.placeReverseData[this.configFormData.place]
-            await updateBell(placeId, this.configFormData.password, this.configFormData.note)
+            this.$confirm('鐘の情報を更新しますか？<br>Twitterでも再募集されます。', '狩人呼びの鐘', {
+              confirmButtonText: 'はい',
+              cancelButtonText: 'いいえ',
+              dangerouslyUseHTMLString: true
+            }).then(async () => {
+              this.configOpen = false
+              let placeId = IV.placeReverseData[this.configFormData.place]
+              await updateBell(placeId, this.configFormData.password, this.configFormData.note)
+            })
           }
         })
       },
@@ -252,8 +258,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (IV.user == "狩りの主") {
     sendSystemMessage(`
+    募集は一定時間で自動的に終了しますが、他の協力者のためにも協力プレイを終える際には手動で募集を終了するようご協力をお願いします。
+    `)
+    sendSystemMessage(`
       右上のボタンから募集を終了したり、鐘の情報を更新することができます。<br>
-      募集は一定時間で自動的に終了しますが、他の協力者のためにも協力プレイを終える際には手動で募集を終了するようご協力をお願いします。
+      鐘の情報を更新することで、Twitterで再募集することができます。
     `)
   }
   sendSystemMessage(`
