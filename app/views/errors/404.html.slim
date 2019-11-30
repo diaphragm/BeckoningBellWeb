@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 html
   head
-    meta http-equiv="refresh" content="2;URL=/"
+    meta http-equiv="refresh" content="1;URL=/"
+    sass:
+      body, a
+        color: rgb(227, 230, 200)
+        background-color: #303030
   body
-    | 404 Not Found
+    div ページが見つかりません。
+    div
+      = link_to 'TOPに移動', '/'
+      | します。
