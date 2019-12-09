@@ -1,13 +1,34 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  place: MyString
-  password: MyString
-  note: MyText
-  datetime: 2019-11-07 00:48:38
+# one:
+#   place: MyString
+#   password: MyString
+#   note: MyText
+#   tweet_uri: MyText
+#   deleted_at: 2019-11-07 00:48:38
 
-two:
-  place: MyString
-  password: MyString
-  note: MyText
-  datetime: 2019-11-07 00:48:38
+# two:
+#   place: MyString
+#   password: MyString
+#   note: MyText
+#   tweet_uri: MyText
+#   deleted_at: 2019-11-07 00:48:38
+
+<% 10.times do |n| %>
+bell_<%= n %>:
+  place: <%= "place_#{n}" %>
+  password: <%= "password_#{n}" %>
+  note: <%= "note_#{n}" %>
+  tweet_uri: <%= "https://twitter.com/bbwdev/#{n}" %>
+  created_at: <%= Time.now - (n*10).minute %>
+<% end %>
+
+<% 10.times do |n| %>
+bell_deleted_<%= n %>:
+  place: <%= "place_#{n}" %>
+  password: <%= "password_#{n}" %>
+  note: <%= "note_#{n}" %>
+  tweet_uri: <%= "https://twitter.com/bbwdev/#{n}" %>
+  deleted_at: <%= Time.now - (n*5).minute %>
+  created_at: <%= Time.now - (n*5).minute %>
+<% end %>
